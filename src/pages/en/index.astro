@@ -1,14 +1,16 @@
 ---
-import { NAME } from '../../lib/site';
+import { getCV } from '../../lib/cv';
+const cv = getCV('en');
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{NAME}</title>
+    <title>{cv.identity.name}</title>
   </head>
   <body>
-    <h1>{NAME}</h1>
+    <h1>{cv.identity.name}</h1>
+    <p>{cv.identity.title}</p>
   </body>
 </html>

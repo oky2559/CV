@@ -8,3 +8,10 @@ for (const [path, lang] of [['/', 'fr'], ['/en/', 'en']] as const) {
     await expect(page.locator('html')).toHaveAttribute('lang', lang);
   });
 }
+
+test('le titre du poste vient de cv.json', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByText('Développeur web full-stack')).toBeVisible();
+  await page.goto('/en/');
+  await expect(page.getByText('Full-stack web developer')).toBeVisible();
+});

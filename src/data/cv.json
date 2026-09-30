@@ -1,0 +1,60 @@
+{
+  "identity": {
+    "name": "Victor Schmutz",
+    "title": { "fr": "Développeur web full-stack", "en": "Full-stack web developer" },
+    "tagline": { "fr": "Je conçois des interfaces qui marquent.", "en": "I build interfaces people remember." },
+    "location": { "fr": "Paris, France", "en": "Paris, France" }
+  },
+  "bio": {
+    "fr": "Développeur curieux, j'aime transformer des idées en produits soignés.",
+    "en": "Curious developer who enjoys turning ideas into polished products."
+  },
+  "experiences": [
+    {
+      "role": { "fr": "Développeur web (stage)", "en": "Web developer (internship)" },
+      "company": "Exemple SAS",
+      "start": "2024-03",
+      "end": "2024-08",
+      "description": { "fr": "Développement de fonctionnalités front et back.", "en": "Built front-end and back-end features." },
+      "tech": ["TypeScript", "React", "Node.js"]
+    },
+    {
+      "role": { "fr": "Développeur junior", "en": "Junior developer" },
+      "company": "Démo Corp",
+      "start": "2025-01",
+      "end": null,
+      "description": { "fr": "Maintenance et évolution d'une application web.", "en": "Maintained and evolved a web application." },
+      "tech": ["Astro", "PostgreSQL"]
+    }
+  ],
+  "education": [
+    {
+      "degree": { "fr": "Cycle ingénieur informatique", "en": "Computer engineering degree" },
+      "school": "École Exemple",
+      "start": "2021-09",
+      "end": null
+    }
+  ],
+  "projects": [
+    {
+      "title": { "fr": "Mon CV en ligne", "en": "My online CV" },
+      "description": { "fr": "Ce site, statique et bilingue.", "en": "This site, static and bilingual." },
+      "stack": ["Astro", "TypeScript"],
+      "github": "https://github.com/oky2559/CV"
+    }
+  ],
+  "skills": [
+    { "category": { "fr": "Langages", "en": "Languages" }, "items": ["TypeScript", "Python"] },
+    { "category": { "fr": "Outils", "en": "Tools" }, "items": ["Git", "Docker"] }
+  ],
+  "languages": [
+    { "name": { "fr": "Français", "en": "French" }, "level": { "fr": "Natif", "en": "Native" } },
+    { "name": { "fr": "Anglais", "en": "English" }, "level": { "fr": "Courant", "en": "Fluent" } }
+  ],
+  "links": {
+    "email": "victor@example.com",
+    "github": "https://github.com/oky2559",
+    "linkedin": "https://www.linkedin.com/in/victor-schmutz",
+    "githubUser": "oky2559"
+  }
+}
