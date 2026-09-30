@@ -1,1 +1,15 @@
 content-source/
+node_modules/
+dist/
+.astro/
+.git/
+.playwright-mcp/
+test-results/
+playwright-report/
+tests/
+.env
+.env.*
+*.log
+.DS_Store
+progress.html
+SPEC.md
