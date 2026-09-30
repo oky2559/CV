@@ -1,6 +1,7 @@
 ---
 import { t, type Lang } from '../i18n/ui';
 import type { CV } from '../lib/cv';
+import GithubStats from './GithubStats.astro';
 import SectionHead from './SectionHead.astro';
 
 interface Props {
@@ -36,7 +37,7 @@ const { lang, cv } = Astro.props;
       </dl>
     </aside>
   </div>
-  {/* Emplacement du bloc « Stats GitHub live » (section 9 : GithubStats.astro). */}
+  <GithubStats lang={lang} user={cv.links.githubUser} />
 </section>
 
 <style>

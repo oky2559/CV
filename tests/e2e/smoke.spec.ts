@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 import cv from '../../src/data/cv.json' with { type: 'json' };
 
 for (const [path, lang] of [['/', 'fr'], ['/en/', 'en']] as const) {

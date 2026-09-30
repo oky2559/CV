@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Page } from './fixtures';
 import cv from '../../src/data/cv.json' with { type: 'json' };
 
 const paths = ['/', '/en/'] as const;

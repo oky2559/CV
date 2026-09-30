@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 import { PDFParse } from 'pdf-parse';
 import cv from '../../src/data/cv.json' with { type: 'json' };
 
