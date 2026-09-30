@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+.astro/
+
+# tests
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+coverage/
+
+# env / secrets
+.env
+.env.*
+!.env.example
+
+# private source content (LinkedIn export)
+content-source/
+
+# OS / editors
+.DS_Store
+.vscode/
+.idea/
+*.log
+npm-debug.log*
