@@ -1,0 +1,71 @@
+---
+// Une seule page 404 (servie par Nginx pour toute URL inconnue) : bilingue.
+import Base from '../layouts/Base.astro';
+import { homePath, t } from '../i18n/ui';
+---
+<Base lang="fr" title="404 · Page introuvable / Page not found" description={t('fr', '404.text')} path="/404" noAlternates>
+  <section class="nf container" aria-labelledby="nf-title">
+    <p class="eyebrow"><span class="accent">//</span> error 404</p>
+    <p class="code" aria-hidden="true">4<span class="accent">0</span>4</p>
+    <div class="cols">
+      <div lang="fr">
+        <h1 id="nf-title">{t('fr', '404.title')}</h1>
+        <p>{t('fr', '404.text')}</p>
+        <a class="back" href={homePath('fr')}>{t('fr', '404.back')} <span aria-hidden="true">→</span></a>
+      </div>
+      <div lang="en">
+        <h2>{t('en', '404.title')}</h2>
+        <p>{t('en', '404.text')}</p>
+        <a class="back" href={homePath('en')}>{t('en', '404.back')} <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    min-height: calc(100svh - var(--nav-h));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--sp-6);
+    padding-block: var(--sp-8);
+  }
+  .code {
+    font-size: var(--fs-giant);
+    font-weight: 700;
+    line-height: var(--lh-tight);
+    letter-spacing: var(--tracking-tight);
+  }
+  .cols {
+    display: grid;
+    gap: var(--sp-7);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    max-width: 60rem;
+  }
+  h1,
+  h2 {
+    font-size: var(--fs-xl);
+    margin-bottom: var(--sp-3);
+  }
+  .cols p {
+    color: var(--c-fg-muted);
+    margin-bottom: var(--sp-5);
+  }
+  .back {
+    display: inline-flex;
+    gap: 0.5em;
+    padding: var(--sp-3) var(--sp-5);
+    border-radius: var(--r-pill);
+    background: var(--c-accent);
+    color: var(--c-accent-ink);
+    font-family: var(--f-mono);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform var(--d-fast) ease;
+  }
+  .back:hover {
+    transform: translateY(-2px);
+  }
+</style>

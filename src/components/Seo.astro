@@ -1,0 +1,32 @@
+---
+import { homePath, langs, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** Chemin de la page courante ; par défaut l'accueil de la langue. */
+  path?: string;
+  /** Page sans équivalent traduit (ex. 404) : pas de hreflang ni canonical. */
+  noAlternates?: boolean;
+}
+
+const { lang, title, description, path = homePath(lang), noAlternates = false } = Astro.props;
+const site = Astro.site ?? new URL('http://localhost:8080');
+const abs = (p: string) => new URL(p, site).href;
+const ogLocale = { fr: 'fr_FR', en: 'en_US' } as const;
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+{!noAlternates && <link rel="canonical" href={abs(path)} />}
+{!noAlternates && langs.map((l) => <link rel="alternate" hreflang={l} href={abs(homePath(l))} />)}
+{!noAlternates && <link rel="alternate" hreflang="x-default" href={abs(homePath('fr'))} />}
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={abs(path)} />
+<meta property="og:image" content={abs('/og-image.png')} />
+<meta property="og:locale" content={ogLocale[lang]} />
+{langs.filter((l) => l !== lang).map((l) => <meta property="og:locale:alternate" content={ogLocale[l]} />)}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#0B0B0C" />

@@ -26,3 +26,6 @@ content-source/
 .idea/
 *.log
 npm-debug.log*
+
+# outils
+.playwright-mcp/

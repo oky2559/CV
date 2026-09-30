@@ -1,0 +1,62 @@
+---
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/jetbrains-mono';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import Seo from '../components/Seo.astro';
+import Nav from '../components/Nav.astro';
+import { t, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  path?: string;
+  noAlternates?: boolean;
+}
+
+const { lang, ...seo } = Astro.props;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Seo lang={lang} {...seo} />
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">{t(lang, 'skip')}</a>
+    <Nav lang={lang} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: fixed;
+    top: var(--sp-3);
+    left: var(--sp-3);
+    z-index: calc(var(--z-grain) + 1);
+    padding: var(--sp-2) var(--sp-4);
+    border-radius: var(--r-md);
+    background: var(--c-accent);
+    color: var(--c-accent-ink);
+    font-family: var(--f-mono);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    text-decoration: none;
+    transform: translateY(calc(-100% - var(--sp-4)));
+    transition: transform var(--d-base) var(--ease-out);
+  }
+  .skip-link:focus {
+    transform: none;
+  }
+  main {
+    padding-top: var(--nav-h);
+  }
+  main:focus {
+    outline: none;
+  }
+</style>

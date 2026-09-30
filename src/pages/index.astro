@@ -1,16 +1,11 @@
 ---
+import Base from '../layouts/Base.astro';
+import Intro from '../components/Intro.astro';
 import { getCV } from '../lib/cv';
-const cv = getCV('fr');
+
+const lang = 'fr';
+const cv = getCV(lang);
 ---
-<!doctype html>
-<html lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{cv.identity.name}</title>
-  </head>
-  <body>
-    <h1>{cv.identity.name}</h1>
-    <p>{cv.identity.title}</p>
-  </body>
-</html>
+<Base lang={lang} title={`${cv.identity.name} · ${cv.identity.title}`} description={cv.identity.tagline}>
+  <Intro lang={lang} cv={cv} />
+</Base>

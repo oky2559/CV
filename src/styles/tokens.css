@@ -1,0 +1,72 @@
+@layer reset, tokens, base, layout, components, utilities;
+
+@layer tokens {
+  :root {
+    color-scheme: dark;
+
+    /* Couleurs */
+    --c-bg: #0b0b0c;
+    --c-bg-raised: #151517;
+    --c-fg: #f2efe8;
+    --c-fg-muted: #a7a399; /* ≈ 8:1 sur --c-bg */
+    --c-line: rgb(242 239 232 / 0.14);
+    --c-accent: #c6ff3d;
+    --c-accent-ink: #0b0b0c; /* texte posé sur l'accent */
+
+    /* Polices */
+    --f-display: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
+    --f-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+    /* Échelle typographique fluide (360 px → 1920 px) */
+    --fs-xs: clamp(0.72rem, 0.7rem + 0.1vw, 0.8rem);
+    --fs-sm: clamp(0.85rem, 0.82rem + 0.15vw, 0.95rem);
+    --fs-base: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+    --fs-lg: clamp(1.2rem, 1.1rem + 0.45vw, 1.5rem);
+    --fs-xl: clamp(1.5rem, 1.25rem + 1.1vw, 2.25rem);
+    --fs-2xl: clamp(2rem, 1.5rem + 2.4vw, 3.75rem);
+    --fs-3xl: clamp(2.75rem, 1.8rem + 4.6vw, 6.5rem);
+    --fs-giant: clamp(3.25rem, 1.2rem + 10vw, 12rem);
+
+    --lh-tight: 0.92;
+    --lh-snug: 1.2;
+    --lh-body: 1.6;
+    --tracking-tight: -0.035em;
+    --tracking-wide: 0.14em;
+
+    /* Espacements */
+    --sp-1: 0.25rem;
+    --sp-2: 0.5rem;
+    --sp-3: 0.75rem;
+    --sp-4: 1rem;
+    --sp-5: 1.5rem;
+    --sp-6: 2rem;
+    --sp-7: 3rem;
+    --sp-8: 4.5rem;
+    --sp-9: clamp(4rem, 3rem + 5vw, 8rem);
+    --gutter: clamp(1rem, 0.6rem + 2vw, 3rem);
+    --max-w: 90rem;
+    --nav-h: 3.5rem;
+
+    /* Rayons */
+    --r-sm: 0.25rem;
+    --r-md: 0.6rem;
+    --r-pill: 999px;
+
+    /* Durées et courbes */
+    --d-fast: 150ms;
+    --d-base: 300ms;
+    --d-slow: 700ms;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+    --z-nav: 50;
+    --z-grain: 100;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --d-fast: 0ms;
+      --d-base: 0ms;
+      --d-slow: 0ms;
+    }
+  }
+}

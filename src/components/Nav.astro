@@ -1,0 +1,86 @@
+---
+import { homePath, sections, t, type Lang } from '../i18n/ui';
+import LangSwitch from './LangSwitch.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const home = homePath(lang);
+---
+<header class="site-nav">
+  <nav class="container inner" aria-label={t(lang, 'nav.label')}>
+    <a class="brand" href={`${home}#top`} aria-label={t(lang, 'nav.home')}>
+      <span aria-hidden="true">VS<span class="accent">.</span></span>
+    </a>
+    <ol class="links">
+      {sections.map((id, i) => (
+        <li>
+          <a href={`${home}#${id}`}>
+            <span class="num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            {t(lang, `nav.${id}`)}
+          </a>
+        </li>
+      ))}
+    </ol>
+    <LangSwitch lang={lang} />
+  </nav>
+</header>
+
+<style>
+  .site-nav {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: var(--z-nav);
+    height: var(--nav-h);
+    background: linear-gradient(to bottom, rgb(11 11 12 / 0.92), rgb(11 11 12 / 0.6));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--c-line);
+  }
+  .inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-5);
+  }
+  .brand {
+    font-weight: 700;
+    font-size: var(--fs-lg);
+    letter-spacing: var(--tracking-tight);
+    text-decoration: none;
+  }
+  .links {
+    display: none;
+    list-style: none;
+    padding: 0;
+    gap: var(--sp-5);
+    margin-inline-start: auto;
+  }
+  .links a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4em;
+    font-family: var(--f-mono);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--c-fg-muted);
+    text-decoration: none;
+    transition: color var(--d-fast) ease;
+  }
+  .links a:hover,
+  .links a:focus-visible {
+    color: var(--c-fg);
+  }
+  .num {
+    color: var(--c-accent);
+  }
+  @media (min-width: 52rem) {
+    .links {
+      display: flex;
+    }
+  }
+</style>
