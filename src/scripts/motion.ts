@@ -256,6 +256,7 @@ function initCursor(): void {
   const cursor = document.createElement('div');
   cursor.className = 'cursor';
   cursor.setAttribute('aria-hidden', 'true');
+  cursor.setAttribute('data-no-print', '');
   cursor.append(document.createElement('span'));
   document.body.append(cursor);
 

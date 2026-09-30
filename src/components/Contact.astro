@@ -20,7 +20,7 @@ const [user, domain] = email.split('@');
     <p class="eyebrow">{t(lang, 'contact.email')}</p>
     <a class="address" href={`mailto:${email}`} data-email={email}>{user}<wbr />@{domain}</a>
     {/* Sans JavaScript le bouton reste masqué : l’adresse reste sélectionnable à la main. */}
-    <button type="button" class="copy" data-magnetic data-copy-email={email} data-ok={t(lang, 'contact.copied')} data-ko={t(lang, 'contact.copyError')} hidden>
+    <button type="button" class="copy" data-no-print data-magnetic data-copy-email={email} data-ok={t(lang, 'contact.copied')} data-ko={t(lang, 'contact.copyError')} hidden>
       <span class="copy-label">{t(lang, 'contact.copy')}</span>
       <span class="copy-done" aria-hidden="true">✓</span>
     </button>

@@ -1,0 +1,382 @@
+/* --------------------------------------------------------------------------
+   Version imprimable (« Télécharger en PDF » → window.print()).
+   Sobre : fond blanc, texte noir, une colonne, 1 à 2 pages A4.
+   Hors @layer volontairement : une règle non stratifiée l'emporte sur les
+   couches ; !important sert à passer devant les styles scopés des composants.
+   Tout élément décoratif ou interactif porte [data-no-print].
+   -------------------------------------------------------------------------- */
+@page {
+  size: A4;
+  margin: 12mm 14mm;
+}
+
+@media print {
+  :root {
+    color-scheme: light;
+    --c-bg: #fff;
+    --c-bg-raised: #fff;
+    --c-fg: #000;
+    --c-fg-muted: #333;
+    --c-line: #bbb;
+    --c-accent: #000;
+    --c-accent-ink: #fff;
+    --fs-xs: 7.5pt;
+    --fs-sm: 8.5pt;
+    --fs-base: 9pt;
+    --fs-lg: 10.5pt;
+    --fs-xl: 11pt;
+    --fs-2xl: 14pt;
+    --fs-3xl: 16pt;
+    --fs-giant: 30pt;
+    --lh-body: 1.4;
+    --nav-h: 0px;
+    --sp-9: 0.8rem;
+    --sp-8: 0.8rem;
+    --sp-7: 0.6rem;
+    --sp-6: 0.5rem;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    min-height: 0 !important;
+  }
+
+  /* Masqués : nav, curseur, grain, boutons, indicateur de scroll, terminal,
+     stats GitHub… Tout futur conteneur interactif pose [data-no-print]. */
+  [data-no-print],
+  .cursor,
+  .skip-link,
+  .scroll-cue,
+  .portrait,
+  .num,
+  .idx,
+  .arrow,
+  .cue-line,
+  a > [aria-hidden='true'] {
+    display: none !important;
+  }
+  body::after,
+  body::before {
+    display: none !important;
+    content: none !important;
+  }
+
+  main {
+    padding-top: 0 !important;
+  }
+
+  /* Pas d'animation, pas de transformation, tout est visible. */
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    background-image: none !important;
+  }
+  [data-reveal],
+  [data-hero-reveal],
+  [data-hero-name],
+  [data-parallax] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+
+  /* Une colonne, conteneurs resserrés. */
+  .container {
+    max-width: none !important;
+    padding-inline: 0 !important;
+  }
+  section {
+    min-height: 0 !important;
+    padding-block: 0.45rem 0 !important;
+    margin: 0 !important;
+  }
+  section [class*='grid'],
+  .groups,
+  .cards,
+  .mail,
+  .elsewhere,
+  .hero-foot,
+  .item,
+  .text {
+    display: block !important;
+    margin-inline-start: 0 !important;
+    grid-template-columns: none !important;
+  }
+
+  /* En-tête : nom, titre, accroche. */
+  .hero {
+    display: block !important;
+    padding: 0 0 0.3rem !important;
+    border-bottom: 1.5pt solid #000;
+  }
+  .hero .top {
+    display: none !important;
+  }
+  .hero-name {
+    font-size: var(--fs-giant) !important;
+    line-height: 1 !important;
+    color: #000 !important;
+  }
+  .hero-line {
+    display: inline !important;
+    padding: 0 !important;
+    color: #000 !important;
+  }
+  .hero-foot {
+    border: 0 !important;
+    padding: 0.2rem 0 0 !important;
+  }
+  .hero .title {
+    color: #000 !important;
+    font-weight: 600;
+  }
+  .hero .tagline {
+    font-size: var(--fs-base) !important;
+    max-width: none !important;
+    text-align: start !important;
+    margin-top: 0.1rem;
+  }
+
+  /* Titres de section. */
+  .section-head {
+    margin: 0 0 0.3rem !important;
+    padding-bottom: 0.1rem;
+    border-bottom: 0.75pt solid #000;
+    break-after: avoid;
+  }
+  .section-head .label {
+    padding: 0 !important;
+  }
+  h2 {
+    font-size: var(--fs-lg) !important;
+    letter-spacing: 0 !important;
+    text-transform: uppercase;
+    line-height: 1.2 !important;
+  }
+  h3,
+  .block-title {
+    color: #000 !important;
+    break-after: avoid;
+  }
+  .block {
+    margin-top: 0.3rem !important;
+  }
+  .block-title {
+    margin-bottom: 0.2rem !important;
+  }
+
+  /* Texte : noir partout, accent neutralisé. */
+  .accent,
+  .org,
+  .when,
+  .current .when,
+  .eyebrow,
+  .card-title,
+  a {
+    color: #000 !important;
+  }
+  .lead {
+    font-size: var(--fs-base) !important;
+    max-width: none !important;
+    font-weight: 400 !important;
+    line-height: 1.4 !important;
+  }
+  .bio {
+    font-size: var(--fs-base) !important;
+    max-width: none !important;
+  }
+  .location {
+    margin-top: 0.2rem;
+  }
+
+  /* Parcours : liste simple, sans ligne ni pastille. */
+  .timeline {
+    display: block !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+  .timeline::after,
+  .item::before {
+    display: none !important;
+  }
+  .item {
+    margin-bottom: 0.35rem !important;
+    break-inside: avoid;
+  }
+  .role {
+    font-size: var(--fs-base) !important;
+    letter-spacing: 0 !important;
+  }
+  .org {
+    display: inline;
+    margin: 0 !important;
+  }
+  .desc {
+    margin-top: 0.1rem;
+    max-width: none !important;
+    font-size: var(--fs-sm) !important;
+  }
+
+  /* Étiquettes techno : texte en ligne, sans pastilles. */
+  .chips,
+  .stack,
+  .items {
+    display: block !important;
+    padding: 0 !important;
+    list-style: none;
+  }
+  .chips li,
+  .stack li,
+  .items li {
+    display: inline !important;
+    border: 0 !important;
+    padding: 0 !important;
+    background: none !important;
+    font-size: var(--fs-xs) !important;
+  }
+
+  /* Projets. */
+  .card {
+    border: 0 !important;
+    padding: 0 !important;
+    margin-bottom: 0.35rem !important;
+    background: none !important;
+    break-inside: avoid;
+    min-height: 0 !important;
+  }
+  .card-title {
+    font-size: var(--fs-base) !important;
+    letter-spacing: 0 !important;
+  }
+  .links {
+    display: block !important;
+    margin-top: 0.1rem !important;
+  }
+  .links a {
+    display: block;
+  }
+
+  /* Compétences et langues. */
+  .group,
+  .lang-row {
+    margin-bottom: 0.15rem !important;
+    break-inside: avoid;
+  }
+  .lang-row {
+    display: flex !important;
+    gap: 0.5em;
+  }
+  .langs {
+    margin-top: 0.3rem !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  /* Contact : l'adresse et les URL s'affichent en clair. */
+  .address {
+    font-size: var(--fs-base) !important;
+    text-decoration: none !important;
+    font-weight: 400 !important;
+  }
+  .mail {
+    margin-top: 0.3rem !important;
+  }
+  .elsewhere {
+    border: 0 !important;
+    padding: 0 !important;
+    margin-top: 0.2rem !important;
+  }
+  .elsewhere ul {
+    display: block !important;
+    padding: 0;
+  }
+  .elsewhere a {
+    font-size: var(--fs-base) !important;
+    font-weight: 400 !important;
+    text-decoration: none !important;
+  }
+
+  /* URL des liens externes affichées après le texte (mailto : l'adresse est déjà le texte). */
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-family: var(--f-mono);
+    font-size: var(--fs-xs);
+    font-weight: 400;
+    word-break: break-all;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    break-after: avoid;
+  }
+
+  /* Nom : SplitText masque chaque lettre (overflow) ; on lève tout rognage. */
+  .hero-name,
+  .hero-name * {
+    overflow: visible !important;
+    clip-path: none !important;
+  }
+  .hero-name {
+    padding-bottom: 0.1em !important;
+  }
+
+  /* Tout en noir, y compris les gris « atténués ». */
+  body *:not(svg):not(path) {
+    color: #000 !important;
+  }
+
+  /* Étiquettes en ligne : séparateurs propres (virgules). */
+  .chips li::before,
+  .chips li::after,
+  .stack li::before,
+  .stack li::after,
+  .items li::before,
+  .items li::after {
+    content: none !important;
+  }
+  .chips li + li::before,
+  .stack li + li::before,
+  .items li + li::before {
+    content: ', ' !important;
+    margin: 0 !important;
+  }
+  .chips li:not(:last-child)::after,
+  .stack li:not(:last-child)::after,
+  .items li:not(:last-child)::after {
+    content: none !important;
+  }
+  .items {
+    font-size: var(--fs-sm) !important;
+    font-weight: 400 !important;
+    letter-spacing: 0 !important;
+  }
+  .stack {
+    padding-top: 0.1rem !important;
+  }
+  .links {
+    border: 0 !important;
+    padding: 0 !important;
+  }
+  .links a {
+    margin: 0 !important;
+  }
+  .lang-row {
+    border: 0 !important;
+    padding: 0 !important;
+  }
+  dl {
+    gap: 0 !important;
+    margin-top: 0.1rem !important;
+  }
+  dt {
+    font-size: var(--fs-sm) !important;
+  }
+}

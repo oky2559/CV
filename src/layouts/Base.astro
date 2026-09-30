@@ -3,6 +3,7 @@ import '@fontsource-variable/space-grotesk';
 import '@fontsource-variable/jetbrains-mono';
 import '../styles/tokens.css';
 import '../styles/global.css';
+import '../styles/print.css';
 import Seo from '../components/Seo.astro';
 import Nav from '../components/Nav.astro';
 import { t, type Lang } from '../i18n/ui';
@@ -26,7 +27,7 @@ const { lang, ...seo } = Astro.props;
     <Seo lang={lang} {...seo} />
   </head>
   <body id="top">
-    <a class="skip-link" href="#main">{t(lang, 'skip')}</a>
+    <a class="skip-link" data-no-print href="#main">{t(lang, 'skip')}</a>
     <Nav lang={lang} />
     <main id="main" tabindex="-1">
       <slot />

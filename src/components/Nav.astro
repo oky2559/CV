@@ -9,7 +9,7 @@ interface Props {
 const { lang } = Astro.props;
 const home = homePath(lang);
 ---
-<header class="site-nav">
+<header class="site-nav" data-no-print>
   <nav class="container inner" aria-label={t(lang, 'nav.label')}>
     <a class="brand" href={`${home}#top`} aria-label={t(lang, 'nav.home')}>
       <span aria-hidden="true">VS<span class="accent">.</span></span>
