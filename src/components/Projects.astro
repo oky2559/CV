@@ -1,0 +1,142 @@
+---
+import { t, type Lang } from '../i18n/ui';
+import type { CV } from '../lib/cv';
+import { pad2 } from '../lib/format';
+import SectionHead from './SectionHead.astro';
+
+interface Props {
+  lang: Lang;
+  cv: CV;
+}
+
+const { lang, cv } = Astro.props;
+---
+<section id="projects" class="projects container" aria-labelledby="projects-title">
+  <SectionHead index={3} id="projects-title" title={t(lang, 'projects.title')} />
+  <ul class="cards">
+    {cv.projects.map((p, i) => (
+      <li class="card">
+        <p class="idx mono" aria-hidden="true">P/{pad2(i + 1)}</p>
+        <h3 class="card-title">{p.title}</h3>
+        <p class="desc">{p.description}</p>
+        {p.stack.length > 0 && (
+          <ul class="stack" aria-label="Stack">
+            {p.stack.map((s) => <li>{s}</li>)}
+          </ul>
+        )}
+        <p class="links">
+          {p.github && (
+            <a href={p.github} target="_blank" rel="noopener noreferrer">
+              {t(lang, 'projects.code')} <span class="visually-hidden">— {p.title} (GitHub)</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+          )}
+          {p.demo && (
+            <a href={p.demo} target="_blank" rel="noopener noreferrer">
+              {t(lang, 'projects.demo')} <span class="visually-hidden">— {p.title}</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+          )}
+        </p>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .projects {
+    padding-block: var(--sp-9);
+  }
+  .cards {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+    gap: var(--sp-4);
+  }
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    min-height: 17rem;
+    padding: var(--sp-5);
+    border: 1px solid var(--c-line);
+    border-radius: var(--r-md);
+    background: var(--c-bg);
+    transition:
+      transform var(--d-base) var(--ease-out),
+      border-color var(--d-base) ease,
+      background-color var(--d-base) ease;
+  }
+  /* Asymétrie : une carte sur deux descend légèrement (grand écran). */
+  @media (min-width: 52rem) {
+    .card:nth-child(even) {
+      margin-top: var(--sp-7);
+    }
+  }
+  .card:hover,
+  .card:focus-within {
+    transform: translateY(-6px);
+    border-color: var(--c-accent);
+    background: var(--c-bg-raised);
+  }
+  .idx {
+    font-size: var(--fs-xs);
+    color: var(--c-fg-muted);
+  }
+  .card-title {
+    font-size: var(--fs-xl);
+    transition: color var(--d-base) ease;
+  }
+  .card:hover .card-title,
+  .card:focus-within .card-title {
+    color: var(--c-accent);
+  }
+  .desc {
+    color: var(--c-fg-muted);
+  }
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    list-style: none;
+    padding: 0;
+    margin-top: auto;
+    padding-top: var(--sp-3);
+  }
+  .stack li {
+    font-family: var(--f-mono);
+    font-size: var(--fs-xs);
+    color: var(--c-accent);
+  }
+  .stack li + li::before {
+    content: '/';
+    margin-inline-end: var(--sp-2);
+    color: var(--c-fg-muted);
+  }
+  .links {
+    display: flex;
+    gap: var(--sp-5);
+    padding-top: var(--sp-3);
+    border-top: 1px solid var(--c-line);
+  }
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    min-height: 2.25rem;
+    font-family: var(--f-mono);
+    font-size: var(--fs-sm);
+    text-decoration: none;
+  }
+  .links a:hover {
+    color: var(--c-accent);
+  }
+  .arrow {
+    display: inline-block;
+    transition: transform var(--d-base) var(--ease-out);
+  }
+  .links a:hover .arrow,
+  .links a:focus-visible .arrow {
+    transform: translate(3px, -3px);
+  }
+</style>

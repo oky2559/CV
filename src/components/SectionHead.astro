@@ -1,0 +1,50 @@
+---
+import { pad2 } from '../lib/format';
+
+interface Props {
+  /** Rang de la section (1 → « 01 »). */
+  index: number;
+  /** id du titre, référencé par aria-labelledby. */
+  id: string;
+  title: string;
+  /** Petite ligne mono au-dessus du titre. */
+  kicker?: string;
+}
+
+const { index, id, title, kicker } = Astro.props;
+---
+<header class="section-head">
+  <span class="num" aria-hidden="true">{pad2(index)}</span>
+  <div class="label">
+    {kicker && <p class="eyebrow"><span class="accent">//</span> {kicker}</p>}
+    <h2 id={id}>{title}</h2>
+  </div>
+</header>
+
+<style>
+  .section-head {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--sp-4);
+    padding-bottom: var(--sp-5);
+    margin-bottom: var(--sp-7);
+    border-bottom: 1px solid var(--c-line);
+  }
+  .num {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: var(--fs-3xl);
+    line-height: 0.8;
+    letter-spacing: var(--tracking-tight);
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--c-accent);
+  }
+  .label {
+    display: grid;
+    gap: var(--sp-2);
+    min-width: 0;
+  }
+  h2 {
+    font-size: var(--fs-2xl);
+  }
+</style>

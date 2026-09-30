@@ -1,0 +1,162 @@
+---
+import { t, type Lang } from '../i18n/ui';
+import type { CV } from '../lib/cv';
+
+interface Props {
+  lang: Lang;
+  cv: CV;
+}
+
+const { lang, cv } = Astro.props;
+// Une ligne par mot : la révélation lettre par lettre (section 6) pourra
+// découper chaque `.hero-line` sans toucher à la structure.
+const words = cv.identity.name.split(/\s+/);
+---
+<section class="hero container" aria-labelledby="hero-name">
+  <p class="eyebrow top"><span class="accent">//</span> {t(lang, 'hero.eyebrow')}</p>
+
+  <h1 id="hero-name" class="hero-name" data-hero-name>
+    {words.map((w, i) => (
+      <Fragment>
+        {i > 0 && ' '}
+        <span class="hero-line">{w}</span>
+      </Fragment>
+    ))}
+  </h1>
+
+  <div class="hero-foot">
+    <p class="title mono">{cv.identity.title}</p>
+    <p class="tagline">{cv.identity.tagline}</p>
+    <div class="actions">
+      <a class="cta" href="#contact">{t(lang, 'hero.cta')} <span aria-hidden="true">→</span></a>
+      <a class="scroll-cue" href="#about">
+        <span class="cue-line" aria-hidden="true"></span>
+        <span class="mono">{t(lang, 'hero.scroll')}</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: calc(100svh - var(--nav-h));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: var(--sp-6);
+    padding-block: var(--sp-8) var(--sp-7);
+  }
+  .top {
+    margin-bottom: auto;
+  }
+  .hero-name {
+    font-size: var(--fs-giant);
+    font-weight: 700;
+    line-height: 0.86;
+  }
+  .hero-line {
+    display: block;
+  }
+  /* Asymétrie : le nom de famille est décalé vers la droite. */
+  .hero-line:nth-child(even) {
+    padding-inline-start: clamp(0.4em, 8vw, 1.6em);
+    color: var(--c-accent);
+  }
+  .hero-foot {
+    display: grid;
+    gap: var(--sp-4);
+    padding-top: var(--sp-5);
+    border-top: 1px solid var(--c-line);
+  }
+  .title {
+    color: var(--c-fg-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .tagline {
+    font-size: var(--fs-xl);
+    line-height: var(--lh-snug);
+    max-width: 30ch;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    margin-top: var(--sp-2);
+  }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    min-height: 2.75rem;
+    padding: 0 var(--sp-5);
+    border-radius: var(--r-pill);
+    background: var(--c-accent);
+    color: var(--c-accent-ink);
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform var(--d-fast) ease;
+  }
+  .cta:hover {
+    transform: translateY(-2px);
+  }
+  .scroll-cue {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-3);
+    color: var(--c-fg-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .scroll-cue:hover {
+    color: var(--c-fg);
+  }
+  .cue-line {
+    position: relative;
+    width: 1px;
+    height: 2.5rem;
+    background: var(--c-line);
+    overflow: hidden;
+  }
+  .cue-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--c-accent);
+    transform-origin: top;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .cue-line::after {
+      animation: cue 2.2s var(--ease-out) infinite;
+    }
+  }
+  @keyframes cue {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+  @media (min-width: 64rem) {
+    .hero-foot {
+      grid-template-columns: 1fr 1.4fr;
+      column-gap: var(--sp-7);
+      align-items: end;
+    }
+    .title {
+      grid-row: 1;
+    }
+    .tagline {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      justify-self: end;
+      text-align: end;
+    }
+    .actions {
+      grid-column: 1;
+      justify-content: flex-start;
+      gap: var(--sp-6);
+    }
+  }
+</style>

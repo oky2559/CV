@@ -1,0 +1,162 @@
+---
+import { t, type Lang } from '../i18n/ui';
+import type { CV } from '../lib/cv';
+import SectionHead from './SectionHead.astro';
+
+interface Props {
+  lang: Lang;
+  cv: CV;
+}
+
+const { lang, cv } = Astro.props;
+const { email, github, linkedin } = cv.links;
+const [user, domain] = email.split('@');
+---
+<section id="contact" class="contact container" aria-labelledby="contact-title">
+  <SectionHead index={5} id="contact-title" title={t(lang, 'contact.title')} />
+  <p class="lead">{t(lang, 'contact.lead')}</p>
+
+  <div class="mail">
+    <p class="eyebrow">{t(lang, 'contact.email')}</p>
+    <a class="address" href={`mailto:${email}`} data-email={email}>{user}<wbr />@{domain}</a>
+    {/* Sans JavaScript le bouton reste masqué : l’adresse reste sélectionnable à la main. */}
+    <button type="button" class="copy" data-copy-email={email} data-ok={t(lang, 'contact.copied')} data-ko={t(lang, 'contact.copyError')} hidden>
+      <span class="copy-label">{t(lang, 'contact.copy')}</span>
+      <span class="copy-done" aria-hidden="true">✓</span>
+    </button>
+    <p class="status mono" role="status" aria-live="polite" data-copy-status></p>
+  </div>
+
+  <div class="elsewhere">
+    <p class="eyebrow">{t(lang, 'contact.elsewhere')}</p>
+    <ul>
+      <li><a href={github} target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></li>
+      <li><a href={linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a></li>
+    </ul>
+  </div>
+</section>
+
+<script>
+  async function copy(text: string): Promise<boolean> {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      // Contexte non sécurisé ou permission refusée : on le signale.
+      return false;
+    }
+  }
+
+  for (const btn of document.querySelectorAll<HTMLButtonElement>('[data-copy-email]')) {
+    const status = btn.parentElement?.querySelector<HTMLElement>('[data-copy-status]');
+    let timer: number | undefined;
+    btn.hidden = false;
+    btn.addEventListener('click', async () => {
+      const ok = await copy(btn.dataset.copyEmail ?? '');
+      btn.classList.toggle('is-copied', ok);
+      if (status) status.textContent = (ok ? btn.dataset.ok : btn.dataset.ko) ?? '';
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        btn.classList.remove('is-copied');
+        if (status) status.textContent = '';
+      }, 3000);
+    });
+  }
+</script>
+
+<style>
+  .contact {
+    padding-block: var(--sp-9);
+  }
+  .lead {
+    font-size: var(--fs-3xl);
+    font-weight: 600;
+    line-height: 0.98;
+    letter-spacing: var(--tracking-tight);
+    max-width: 16ch;
+  }
+  .mail {
+    margin-top: var(--sp-8);
+    display: grid;
+    justify-items: start;
+    gap: var(--sp-4);
+  }
+  .address {
+    font-size: var(--fs-2xl);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+    text-decoration-thickness: 2px;
+    transition: color var(--d-fast) ease;
+  }
+  .address:hover {
+    color: var(--c-accent);
+  }
+  .copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    min-height: 2.75rem;
+    padding: 0 var(--sp-5);
+    border: 1px solid var(--c-accent);
+    border-radius: var(--r-pill);
+    background: transparent;
+    color: var(--c-accent);
+    font-family: var(--f-mono);
+    font-size: var(--fs-sm);
+    cursor: pointer;
+    transition:
+      background-color var(--d-fast) ease,
+      color var(--d-fast) ease;
+  }
+  .copy[hidden] {
+    display: none;
+  }
+  .copy:hover,
+  .copy.is-copied {
+    background: var(--c-accent);
+    color: var(--c-accent-ink);
+  }
+  .copy-done {
+    display: none;
+  }
+  .copy.is-copied .copy-done {
+    display: inline;
+  }
+  .status {
+    min-height: 1.5em;
+    color: var(--c-accent);
+  }
+  .elsewhere {
+    margin-top: var(--sp-7);
+    padding-top: var(--sp-5);
+    border-top: 1px solid var(--c-line);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--sp-4) var(--sp-7);
+  }
+  .elsewhere ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-6);
+  }
+  .elsewhere a {
+    font-size: var(--fs-xl);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .elsewhere a:hover,
+  .elsewhere a:focus-visible {
+    color: var(--c-accent);
+  }
+  @media (min-width: 64rem) {
+    .mail,
+    .elsewhere {
+      margin-inline-start: 33%;
+    }
+  }
+</style>

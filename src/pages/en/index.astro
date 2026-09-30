@@ -1,11 +1,21 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Intro from '../../components/Intro.astro';
+import Hero from '../../components/Hero.astro';
+import About from '../../components/About.astro';
+import Timeline from '../../components/Timeline.astro';
+import Projects from '../../components/Projects.astro';
+import Skills from '../../components/Skills.astro';
+import Contact from '../../components/Contact.astro';
 import { getCV } from '../../lib/cv';
 
 const lang = 'en';
 const cv = getCV(lang);
 ---
 <Base lang={lang} title={`${cv.identity.name} · ${cv.identity.title}`} description={cv.identity.tagline}>
-  <Intro lang={lang} cv={cv} />
+  <Hero lang={lang} cv={cv} />
+  <About lang={lang} cv={cv} />
+  <Timeline lang={lang} cv={cv} />
+  <Projects lang={lang} cv={cv} />
+  <Skills lang={lang} cv={cv} />
+  <Contact lang={lang} cv={cv} />
 </Base>

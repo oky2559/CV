@@ -1,0 +1,159 @@
+---
+import { t, type Lang } from '../i18n/ui';
+import type { CV } from '../lib/cv';
+import { formatPeriod } from '../lib/format';
+import SectionHead from './SectionHead.astro';
+
+interface Props {
+  lang: Lang;
+  cv: CV;
+}
+
+const { lang, cv } = Astro.props;
+const present = t(lang, 'experience.present');
+---
+<section id="experience" class="experience container" aria-labelledby="experience-title">
+  <SectionHead index={2} id="experience-title" title={t(lang, 'experience.title')} />
+
+  <div class="block">
+    <h3 class="block-title eyebrow">{t(lang, 'experience.work')}</h3>
+    <ol class="timeline" data-timeline>
+      {cv.experiences.map((x) => (
+        <li class:list={['item', { current: x.end === null }]}>
+          <p class="when mono">
+            <time datetime={x.start}>{formatPeriod(x.start, x.end, lang, present)}</time>
+          </p>
+          <div class="what">
+            <h4 class="role">{x.role}</h4>
+            <p class="org">{x.company}</p>
+            <p class="desc">{x.description}</p>
+            {x.tech.length > 0 && (
+              <ul class="chips" aria-label="Technologies">
+                {x.tech.map((s) => <li>{s}</li>)}
+              </ul>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+
+  <div class="block">
+    <h3 class="block-title eyebrow">{t(lang, 'experience.education')}</h3>
+    <ol class="timeline compact">
+      {cv.education.map((x) => (
+        <li class="item">
+          <p class="when mono">
+            <time datetime={x.start}>{formatPeriod(x.start, x.end, lang, present)}</time>
+          </p>
+          <div class="what">
+            <h4 class="role">{x.degree}</h4>
+            <p class="org">{x.school}</p>
+            {x.description && <p class="desc">{x.description}</p>}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .experience {
+    padding-block: var(--sp-9);
+  }
+  .block + .block {
+    margin-top: var(--sp-8);
+  }
+  .block-title {
+    margin-bottom: var(--sp-5);
+  }
+  .timeline {
+    --dot: 0.7rem;
+    position: relative;
+    list-style: none;
+    padding: 0 0 0 var(--sp-6);
+    border-left: 1px solid var(--c-line);
+    display: grid;
+    gap: var(--sp-7);
+  }
+  .compact {
+    gap: var(--sp-5);
+  }
+  .item {
+    position: relative;
+    display: grid;
+    gap: var(--sp-2);
+  }
+  .item::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--sp-6) - var(--dot) / 2 - 0.5px);
+    top: 0.35em;
+    width: var(--dot);
+    height: var(--dot);
+    border-radius: 50%;
+    background: var(--c-bg);
+    border: 1px solid var(--c-fg-muted);
+  }
+  .current::before {
+    background: var(--c-accent);
+    border-color: var(--c-accent);
+    box-shadow: 0 0 0 4px rgb(198 255 61 / 0.18);
+  }
+  .when {
+    color: var(--c-fg-muted);
+    text-transform: uppercase;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.08em;
+  }
+  .current .when {
+    color: var(--c-accent);
+  }
+  .role {
+    font-size: var(--fs-xl);
+    font-weight: 600;
+    line-height: var(--lh-snug);
+    letter-spacing: -0.02em;
+  }
+  .compact .role {
+    font-size: var(--fs-lg);
+  }
+  .org {
+    font-family: var(--f-mono);
+    font-size: var(--fs-sm);
+    color: var(--c-accent);
+    margin-top: var(--sp-1);
+  }
+  .desc {
+    max-width: 62ch;
+    color: var(--c-fg-muted);
+    margin-top: var(--sp-2);
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    list-style: none;
+    padding: 0;
+    margin-top: var(--sp-3);
+  }
+  .chips li {
+    font-family: var(--f-mono);
+    font-size: var(--fs-xs);
+    padding: 0.2em 0.7em;
+    border: 1px solid var(--c-line);
+    border-radius: var(--r-pill);
+  }
+  @media (min-width: 52rem) {
+    .item {
+      grid-template-columns: 13rem 1fr;
+      column-gap: var(--sp-6);
+    }
+    .when {
+      padding-top: 0.45em;
+    }
+    .block {
+      margin-inline-start: clamp(0rem, 12vw, 12rem);
+    }
+  }
+</style>

@@ -1,0 +1,109 @@
+---
+import { t, type Lang } from '../i18n/ui';
+import type { CV } from '../lib/cv';
+import SectionHead from './SectionHead.astro';
+
+interface Props {
+  lang: Lang;
+  cv: CV;
+}
+
+const { lang, cv } = Astro.props;
+---
+<section id="skills" class="skills container" aria-labelledby="skills-title">
+  <SectionHead index={4} id="skills-title" title={t(lang, 'skills.title')} />
+  <div class="grid">
+    <div class="groups">
+      {cv.skills.map((g) => (
+        <div class="group">
+          <h3 class="eyebrow">{g.category}</h3>
+          <ul class="items">
+            {g.items.map((s) => <li>{s}</li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <aside class="langs" aria-labelledby="langs-title">
+      <h3 id="langs-title" class="eyebrow">{t(lang, 'skills.languages')}</h3>
+      <dl>
+        {cv.languages.map((l) => (
+          <div class="lang-row">
+            <dt>{l.name}</dt>
+            <dd class="mono">{l.level}</dd>
+          </div>
+        ))}
+      </dl>
+    </aside>
+  </div>
+  {/* Emplacement du bloc « Stats GitHub live » (section 9 : GithubStats.astro). */}
+</section>
+
+<style>
+  .skills {
+    padding-block: var(--sp-9);
+  }
+  .grid {
+    display: grid;
+    gap: var(--sp-8);
+  }
+  .groups {
+    display: grid;
+    gap: var(--sp-7);
+  }
+  .group h3 {
+    margin-bottom: var(--sp-3);
+  }
+  .items {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--sp-4);
+    font-size: var(--fs-2xl);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: var(--tracking-tight);
+  }
+  .items li:not(:last-child)::after {
+    content: '·';
+    margin-inline-start: var(--sp-4);
+    color: var(--c-accent);
+  }
+  .langs {
+    align-self: start;
+    padding: var(--sp-5);
+    border: 1px solid var(--c-line);
+    border-radius: var(--r-md);
+  }
+  dl {
+    display: grid;
+    gap: var(--sp-3);
+    margin-top: var(--sp-4);
+  }
+  .lang-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--sp-2) var(--sp-4);
+    padding-bottom: var(--sp-3);
+    border-bottom: 1px dashed var(--c-line);
+  }
+  .lang-row:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  dt {
+    font-size: var(--fs-lg);
+    font-weight: 600;
+  }
+  dd {
+    color: var(--c-fg-muted);
+  }
+  @media (min-width: 64rem) {
+    .grid {
+      grid-template-columns: 8fr 4fr;
+    }
+  }
+</style>

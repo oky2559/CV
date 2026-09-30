@@ -1,0 +1,101 @@
+---
+import { t, type Lang } from '../i18n/ui';
+import type { CV } from '../lib/cv';
+import SectionHead from './SectionHead.astro';
+
+interface Props {
+  lang: Lang;
+  cv: CV;
+}
+
+const { lang, cv } = Astro.props;
+// Au build, on affiche la photo seulement si public/photo.jpg existe ; sinon le monogramme.
+const hasPhoto = Object.keys(import.meta.glob('/public/photo.jpg')).length > 0;
+const initials = cv.identity.name
+  .split(/\s+/)
+  .map((w) => w[0])
+  .join('')
+  .toUpperCase();
+---
+<section id="about" class="about container" aria-labelledby="about-title">
+  <SectionHead index={1} id="about-title" title={t(lang, 'about.title')} />
+  <div class="grid">
+    <figure class="portrait">
+      {hasPhoto ? (
+        <img src="/photo.jpg" alt={`${t(lang, 'about.photo')} ${cv.identity.name}`} width="480" height="600" loading="lazy" decoding="async" />
+      ) : (
+        <div class="monogram" data-monogram role="img" aria-label={cv.identity.name}>
+          <span aria-hidden="true">{initials}</span>
+        </div>
+      )}
+    </figure>
+    <div class="text">
+      <p class="bio">{cv.bio}</p>
+      <p class="location mono">
+        <span class="eyebrow">{t(lang, 'about.location')}</span>
+        <span>{cv.identity.location}</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    padding-block: var(--sp-9);
+  }
+  .grid {
+    display: grid;
+    gap: var(--sp-7);
+  }
+  .portrait {
+    width: min(100%, 18rem);
+    aspect-ratio: 4 / 5;
+  }
+  .portrait img,
+  .monogram {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--r-md);
+  }
+  .portrait img {
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.05);
+  }
+  .monogram {
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--c-line);
+    background:
+      radial-gradient(120% 90% at 20% 10%, rgb(198 255 61 / 0.14), transparent 60%),
+      var(--c-bg-raised);
+  }
+  .monogram span {
+    font-size: clamp(5rem, 4rem + 6vw, 9rem);
+    font-weight: 700;
+    letter-spacing: -0.06em;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--c-accent);
+  }
+  .bio {
+    font-size: var(--fs-xl);
+    line-height: 1.35;
+    max-width: 34ch;
+  }
+  .location {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--sp-3);
+    margin-top: var(--sp-6);
+  }
+  @media (min-width: 52rem) {
+    .grid {
+      grid-template-columns: minmax(12rem, 4fr) 8fr;
+      align-items: end;
+    }
+    .portrait {
+      width: 100%;
+      max-width: 22rem;
+    }
+  }
+</style>
