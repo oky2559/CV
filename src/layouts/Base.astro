@@ -6,6 +6,7 @@ import '../styles/global.css';
 import '../styles/print.css';
 import Seo from '../components/Seo.astro';
 import Nav from '../components/Nav.astro';
+import Terminal from '../components/Terminal.astro';
 import { t, type Lang } from '../i18n/ui';
 
 interface Props {
@@ -32,6 +33,7 @@ const { lang, ...seo } = Astro.props;
     <main id="main" tabindex="-1">
       <slot />
     </main>
+    <Terminal lang={lang} />
     <script>
       import '../scripts/motion';
     </script>

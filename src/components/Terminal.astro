@@ -1,0 +1,313 @@
+---
+/**
+ * Easter egg : mini-terminal ouvert par ` ou Ctrl+K, et indice discret en pied
+ * de page. La logique (lib/terminal.ts + scripts/terminal-ui.ts) n'est chargée
+ * qu'à la première ouverture.
+ */
+import { t, type Lang } from '../i18n/ui';
+import { getCV } from '../lib/cv';
+import { strings } from '../lib/terminal';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const cv = getCV(lang);
+// Données du terminal, en JSON inerte ; « < » échappé pour ne jamais fermer la balise.
+const data = JSON.stringify(cv).replace(/</g, '\\u003c');
+---
+<footer class="site-foot container" data-no-print>
+  <button type="button" class="hint" data-terminal-open hidden>
+    <span class="hint-key">{t(lang, 'terminal.hint')} <kbd>`</kbd></span>
+    <span class="hint-touch">{t(lang, 'terminal.hintTouch')} <span aria-hidden="true">&gt;_</span></span>
+  </button>
+</footer>
+
+<dialog
+  class="term"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="terminal-title"
+  data-terminal
+  data-lang={lang}
+  data-no-print
+  data-lenis-prevent
+>
+  <div class="bar">
+    <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <h2 id="terminal-title" class="title">{t(lang, 'terminal.title')}</h2>
+    <button type="button" class="close" data-terminal-close aria-label={t(lang, 'terminal.close')}>
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="screen" data-terminal-output role="log" aria-live="polite"></div>
+  <form class="line-in" data-terminal-form>
+    <label for="terminal-input" class="prompt">
+      <span aria-hidden="true">{strings(lang).prompt}</span>
+      <span class="visually-hidden">{t(lang, 'terminal.input')}</span>
+    </label>
+    <input
+      id="terminal-input"
+      name="command"
+      type="text"
+      autocomplete="off"
+      autocapitalize="off"
+      autocorrect="off"
+      spellcheck="false"
+      enterkeyhint="send"
+    />
+  </form>
+</dialog>
+
+<script type="application/json" id="terminal-data" set:html={data} />
+
+<script>
+  let loading: Promise<typeof import('../scripts/terminal-ui')> | null = null;
+  const load = () => (loading ??= import('../scripts/terminal-ui'));
+
+  function openTerminal(): void {
+    const from = document.activeElement;
+    load()
+      .then((m) => m.open(from))
+      .catch((err) => console.warn('[terminal] indisponible :', err));
+  }
+
+  function isTyping(el: EventTarget | null): boolean {
+    return el instanceof HTMLElement && (el.isContentEditable || !!el.closest('input, textarea, select, [contenteditable]'));
+  }
+
+  /** ` seul (AltGr accepté pour les claviers qui en ont besoin) ou Ctrl+K. */
+  function isShortcut(e: KeyboardEvent): boolean {
+    if (e.metaKey || e.isComposing) return false;
+    if (e.key === '`') return e.ctrlKey === e.altKey;
+    return e.ctrlKey && !e.altKey && !e.shiftKey && e.key.toLowerCase() === 'k';
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.defaultPrevented || !isShortcut(e) || isTyping(e.target)) return;
+    if (document.querySelector('dialog[data-terminal][open]')) return;
+    e.preventDefault();
+    openTerminal();
+  });
+
+  for (const btn of document.querySelectorAll<HTMLButtonElement>('[data-terminal-open]')) {
+    btn.hidden = false;
+    btn.addEventListener('click', openTerminal);
+  }
+</script>
+
+<style>
+  .site-foot {
+    display: flex;
+    justify-content: flex-end;
+    padding-block: var(--sp-6) var(--sp-7);
+    border-top: 1px solid var(--c-line);
+  }
+  .hint {
+    padding: var(--sp-2) 0;
+    border: 0;
+    background: none;
+    color: var(--c-fg-muted);
+    font-family: var(--f-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    opacity: 0.75;
+    transition:
+      color var(--d-fast) ease,
+      opacity var(--d-fast) ease;
+  }
+  .hint[hidden] {
+    display: none;
+  }
+  .hint:hover,
+  .hint:focus-visible {
+    color: var(--c-accent);
+    opacity: 1;
+  }
+  .hint kbd {
+    display: inline-block;
+    min-width: 1.6em;
+    padding: 0 0.35em;
+    border: 1px solid currentColor;
+    border-radius: var(--r-sm);
+    font-family: inherit;
+    text-align: center;
+  }
+  .hint-touch {
+    display: none;
+  }
+  @media (hover: none), (pointer: coarse) {
+    .hint-key {
+      display: none;
+    }
+    .hint-touch {
+      display: inline;
+    }
+  }
+
+  .term {
+    width: min(46rem, calc(100vw - 2 * var(--sp-4)));
+    height: min(30rem, calc(100dvh - 2 * var(--sp-6)));
+    max-width: none;
+    max-height: none;
+    margin: auto;
+    padding: 0;
+    border: 1px solid var(--c-line);
+    border-radius: var(--r-md);
+    background: #0f0f10;
+    color: var(--c-fg);
+    font-family: var(--f-mono);
+    font-size: var(--fs-sm);
+    box-shadow:
+      0 0 0 1px rgb(198 255 61 / 0.08),
+      0 30px 80px rgb(0 0 0 / 0.6);
+    overflow: hidden;
+  }
+  .term[open] {
+    display: flex;
+    flex-direction: column;
+    animation: term-in var(--d-base) var(--ease-out);
+  }
+  .term::backdrop {
+    background: rgb(11 11 12 / 0.7);
+    backdrop-filter: blur(4px);
+  }
+  .term:global(.is-celebrating) {
+    animation: term-glow 1.2s ease-out;
+  }
+  @keyframes term-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+    }
+  }
+  @keyframes term-glow {
+    30% {
+      border-color: var(--c-accent);
+      box-shadow:
+        0 0 0 2px var(--c-accent),
+        0 0 60px rgb(198 255 61 / 0.45);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .term[open],
+    .term:global(.is-celebrating) {
+      animation: none;
+    }
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    padding: var(--sp-2) var(--sp-3);
+    border-bottom: 1px solid var(--c-line);
+    background: var(--c-bg-raised);
+  }
+  .dots {
+    display: flex;
+    gap: 6px;
+  }
+  .dots i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--c-line);
+  }
+  .dots i:first-child {
+    background: var(--c-accent);
+  }
+  .title {
+    flex: 1;
+    margin: 0;
+    font-size: var(--fs-xs);
+    font-weight: 400;
+    color: var(--c-fg-muted);
+    text-align: center;
+    letter-spacing: 0.04em;
+  }
+  .close {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 0;
+    border-radius: var(--r-sm);
+    background: none;
+    color: var(--c-fg-muted);
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .close:hover,
+  .close:focus-visible {
+    color: var(--c-accent);
+  }
+
+  .screen {
+    flex: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: var(--sp-3) var(--sp-4) 0;
+  }
+  .screen :global(.line) {
+    margin: 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    line-height: 1.55;
+  }
+  .screen :global(.muted) {
+    color: var(--c-fg-muted);
+  }
+  .screen :global(.accent) {
+    color: var(--c-accent);
+  }
+  .screen :global(.error) {
+    color: #ff8a7a;
+  }
+  .screen :global(.cmd) {
+    margin-top: var(--sp-2);
+  }
+  .screen :global(.prompt),
+  .prompt {
+    color: var(--c-accent);
+  }
+  .screen :global(a) {
+    color: inherit;
+    text-decoration-color: var(--c-line);
+  }
+  .screen :global(a:hover),
+  .screen :global(a:focus-visible) {
+    color: var(--c-accent);
+  }
+
+  .line-in {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6em;
+    padding: var(--sp-2) var(--sp-4) var(--sp-3);
+  }
+  .prompt {
+    flex: none;
+    white-space: nowrap;
+  }
+  .line-in input {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--c-fg);
+    font: inherit;
+    caret-color: var(--c-accent);
+    outline: none;
+  }
+</style>
+
+<style is:global>
+  html.terminal-open {
+    overflow: hidden;
+  }
+</style>

@@ -304,6 +304,11 @@ function start(): void {
     gsap.registerPlugin(ScrollTrigger, SplitText);
     lenis = initLenis();
     bindAnchors();
+    // Le terminal (ou toute autre modale) fige le scroll fluide tant qu'il est ouvert.
+    document.addEventListener('cv:scroll-lock', (e) => {
+      if ((e as CustomEvent<boolean>).detail) lenis?.stop();
+      else lenis?.start();
+    });
     initHero();
     initReveals();
     initTimelines();
