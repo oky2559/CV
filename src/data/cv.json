@@ -1,58 +1,154 @@
 {
   "identity": {
     "name": "Victor Schmutz",
-    "title": { "fr": "Développeur web full-stack", "en": "Full-stack web developer" },
-    "tagline": { "fr": "Je conçois des interfaces qui marquent.", "en": "I build interfaces people remember." },
-    "location": { "fr": "Paris, France", "en": "Paris, France" }
+    "title": {
+      "fr": "Élève-ingénieur · Support Engineer API",
+      "en": "Engineering student · API Support Engineer"
+    },
+    "tagline": {
+      "fr": "Je dépanne des robots, je fiabilise des API, et j'apprends vite.",
+      "en": "I fix robots, make APIs reliable, and learn fast."
+    },
+    "location": { "fr": "Lille, Hauts-de-France", "en": "Lille, France" }
   },
   "bio": {
-    "fr": "Développeur curieux, j'aime transformer des idées en produits soignés.",
-    "en": "Curious developer who enjoys turning ideas into polished products."
+    "fr": "Élève-ingénieur à l'ISEN Lille, je travaille chez Decathlon sur la gestion d'API. Avant, j'ai fait du support N1/N2 sur des robots d'entrepôt chez Exotec : là où la théorie rencontre le terrain. J'aime comprendre pourquoi ça casse, et faire en sorte que ça ne recommence pas.",
+    "en": "Engineering student at ISEN Lille, working on API management at Decathlon. Before that, I handled L1/L2 support for warehouse robots at Exotec, where theory meets the real world. I like understanding why things break, and making sure they don't break twice."
   },
   "experiences": [
     {
-      "role": { "fr": "Développeur web (stage)", "en": "Web developer (internship)" },
-      "company": "Exemple SAS",
-      "start": "2024-03",
-      "end": "2024-08",
-      "description": { "fr": "Développement de fonctionnalités front et back.", "en": "Built front-end and back-end features." },
-      "tech": ["TypeScript", "React", "Node.js"]
+      "role": {
+        "fr": "CPE – API Management – Support Engineer",
+        "en": "CPE – API Management – Support Engineer"
+      },
+      "company": "Decathlon Digital",
+      "start": "2025-09",
+      "end": null,
+      "description": {
+        "fr": "TODO: Support et exploitation de la plateforme d'API de Decathlon : suivi avec Datadog, tests d'API avec Bruno, accompagnement des équipes consommatrices.",
+        "en": "TODO: Support and operation of Decathlon's API platform: monitoring with Datadog, API testing with Bruno, helping consumer teams."
+      },
+      "tech": ["Datadog", "Bruno", "API"]
     },
     {
-      "role": { "fr": "Développeur junior", "en": "Junior developer" },
-      "company": "Démo Corp",
-      "start": "2025-01",
-      "end": null,
-      "description": { "fr": "Maintenance et évolution d'une application web.", "en": "Maintained and evolved a web application." },
-      "tech": ["Astro", "PostgreSQL"]
+      "role": { "fr": "Technicien supervision robotique", "en": "Robotics supervision technician" },
+      "company": "Exotec",
+      "start": "2024-01",
+      "end": "2024-09",
+      "description": {
+        "fr": "Support N1 et N2 des clients sur leurs systèmes robotiques : diagnostic en autonomie, solutions techniques, suivi jusqu'à la résolution. Travail avec les ingénieurs maintenance et R&D sur les cas complexes, et reporting des bugs pour fiabiliser le système.",
+        "en": "L1 and L2 customer support on robotic systems: independent diagnosis, technical fixes, follow-up until resolution. Worked with maintenance and R&D engineers on complex cases, and reported bugs to improve system reliability."
+      },
+      "tech": []
+    },
+    {
+      "role": { "fr": "Employé en restauration (Food & Beverage)", "en": "Food and Beverage Assistant" },
+      "company": "The Doyle Collection",
+      "start": "2022-12",
+      "end": "2023-08",
+      "description": {
+        "fr": "Barista, service en salle et en cuisine dans un hôtel à Dublin : une année en anglais, au rythme du service.",
+        "en": "Barista, waiter and food runner in a Dublin hotel: working in English, at the pace of service."
+      },
+      "tech": []
+    },
+    {
+      "role": { "fr": "Administrateur système (stage)", "en": "System administrator (internship)" },
+      "company": "EQIOM, a CRH company",
+      "start": "2021-05",
+      "end": "2021-06",
+      "description": {
+        "fr": "TODO: Première expérience en administration système au sein du service informatique.",
+        "en": "TODO: First hands-on experience in system administration within the IT department."
+      },
+      "tech": []
     }
   ],
   "education": [
     {
-      "degree": { "fr": "Cycle ingénieur informatique", "en": "Computer engineering degree" },
-      "school": "École Exemple",
-      "start": "2021-09",
-      "end": null
+      "degree": {
+        "fr": "Ingénieur du numérique, ingénierie informatique",
+        "en": "Digital engineering degree, computer engineering"
+      },
+      "school": "ISEN Lille",
+      "start": "2025-09",
+      "end": "2028-09"
+    },
+    {
+      "degree": {
+        "fr": "Classe préparatoire d'adaptation technicien supérieur, ingénierie industrielle",
+        "en": "Advanced technician adaptation prep class, industrial engineering"
+      },
+      "school": "Lycée César Baggio",
+      "start": "2024-09",
+      "end": "2025-07"
+    },
+    {
+      "degree": {
+        "fr": "BTS Systèmes numériques, option informatique et réseaux",
+        "en": "BTS Digital Systems, computing and networks option"
+      },
+      "school": "Campus Ozanam",
+      "start": "2020-09",
+      "end": "2022-07"
+    },
+    {
+      "degree": { "fr": "Baccalauréat STI2D", "en": "STI2D Baccalaureate (industrial science and technology)" },
+      "school": "Lycée polyvalent Ozanam",
+      "start": "2017-09",
+      "end": "2020-07"
     }
   ],
   "projects": [
     {
-      "title": { "fr": "Mon CV en ligne", "en": "My online CV" },
-      "description": { "fr": "Ce site, statique et bilingue.", "en": "This site, static and bilingual." },
-      "stack": ["Astro", "TypeScript"],
-      "github": "https://github.com/oky2559/CV"
+      "title": { "fr": "GPS en C avec A*", "en": "C GPS with A*" },
+      "description": {
+        "fr": "Devoir de C : calcul d'itinéraire avec l'algorithme A* (A-star).",
+        "en": "C assignment: route finding with the A* (A-star) algorithm."
+      },
+      "stack": ["C"],
+      "github": "https://github.com/oky2559/DM-C"
+    },
+    {
+      "title": { "fr": "Synthétiseur en C", "en": "Synthesizer in C" },
+      "description": {
+        "fr": "Projet de C : un synthétiseur sonore.",
+        "en": "C project: a sound synthesizer."
+      },
+      "stack": ["C", "Nix"],
+      "github": "https://github.com/oky2559/Synth-tiseur"
+    },
+    {
+      "title": { "fr": "DevOps", "en": "DevOps" },
+      "description": {
+        "fr": "TODO: Dépôt d'exercices et de configuration DevOps.",
+        "en": "TODO: Repository of DevOps exercises and configuration."
+      },
+      "stack": ["HTML"],
+      "github": "https://github.com/oky2559/devops"
     }
   ],
   "skills": [
-    { "category": { "fr": "Langages", "en": "Languages" }, "items": ["TypeScript", "Python"] },
-    { "category": { "fr": "Outils", "en": "Tools" }, "items": ["Git", "Docker"] }
+    {
+      "category": { "fr": "API & supervision", "en": "API & monitoring" },
+      "items": ["API", "Datadog", "Bruno"]
+    },
+    {
+      "category": { "fr": "Développement", "en": "Development" },
+      "items": ["C", "Nix", "HTML"]
+    },
+    {
+      "category": { "fr": "Support & réseaux", "en": "Support & networks" },
+      "items": ["Support N1/N2", "Diagnostic", "Administration système"]
+    }
   ],
   "languages": [
-    { "name": { "fr": "Français", "en": "French" }, "level": { "fr": "Natif", "en": "Native" } },
-    { "name": { "fr": "Anglais", "en": "English" }, "level": { "fr": "Courant", "en": "Fluent" } }
+    { "name": { "fr": "Français", "en": "French" }, "level": { "fr": "Langue maternelle", "en": "Native" } },
+    { "name": { "fr": "Anglais", "en": "English" }, "level": { "fr": "Professionnel", "en": "Professional working" } },
+    { "name": { "fr": "Espagnol", "en": "Spanish" }, "level": { "fr": "Élémentaire", "en": "Elementary" } }
   ],
   "links": {
-    "email": "victor@example.com",
+    "email": "victor.schmutz.pro@gmail.com",
     "github": "https://github.com/oky2559",
     "linkedin": "https://www.linkedin.com/in/victor-schmutz",
     "githubUser": "oky2559"

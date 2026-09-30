@@ -30,9 +30,9 @@ describe('validation', () => {
 
 describe('getCV', () => {
   test('bascule de langue', () => {
-    expect(getCV('fr').identity.title).toBe('Développeur web full-stack');
-    expect(getCV('en').identity.title).toBe('Full-stack web developer');
-    expect(getCV('en').skills[0].category).toBe('Languages');
+    expect(getCV('fr').identity.title).toBe(raw.identity.title.fr);
+    expect(getCV('en').identity.title).toBe(raw.identity.title.en);
+    expect(getCV('en').skills[0].category).toBe(raw.skills[0].category.en);
   });
 
   test('expériences triées de la plus récente à la plus ancienne', () => {
@@ -43,5 +43,21 @@ describe('getCV', () => {
       { ...cv.experiences[0], company: 'C', start: '2021-01', end: null },
     ];
     expect(buildCV(cv, 'fr').experiences.map((e) => e.company)).toEqual(['C', 'B', 'A']);
+  });
+});
+
+describe('contenu à relire', () => {
+  test('avertit (sans échouer) s\'il reste des TODO', () => {
+    const todos: string[] = [];
+    const walk = (v: unknown, path: string) => {
+      if (typeof v === 'string') {
+        if (v.startsWith('TODO:')) todos.push(path);
+      } else if (v && typeof v === 'object') {
+        for (const [k, x] of Object.entries(v)) walk(x, path ? `${path}.${k}` : k);
+      }
+    };
+    walk(raw, '');
+    if (todos.length) console.warn(`⚠ ${todos.length} champ(s) "TODO:" à relire dans cv.json :\n  - ${todos.join('\n  - ')}`);
+    expect(Array.isArray(todos)).toBe(true);
   });
 });
