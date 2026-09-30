@@ -101,15 +101,32 @@ function render(root: HTMLElement, stats: GithubStats, lang: string): void {
     time.title = new Intl.DateTimeFormat(lang, { dateStyle: 'long', timeStyle: 'short' }).format(new Date(stats.lastPush));
   }
 
+  revealInPlace(root);
   if (animate) {
     root.classList.add('is-entering');
-    root.hidden = false;
     // Deux frames : l'état de départ est peint avant la transition.
     requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('is-entering')));
-  } else {
-    root.hidden = false;
   }
   root.dataset.ghState = 'ready';
+}
+
+/**
+ * Affiche le bloc sans faire bouger ce que le visiteur regarde. Le bloc arrive
+ * après le chargement : si son emplacement est déjà au-dessus du milieu de
+ * l'écran (arrivée sur #contact, lecture plus bas…), le contenu situé après
+ * lui serait poussé vers le bas. On compense alors le défilement de la hauteur
+ * ajoutée. Le navigateur ne le fait pas seul ici (Lenis garde la position).
+ */
+function revealInPlace(root: HTMLElement): void {
+  const marker = document.createElement('span');
+  root.after(marker);
+  const before = marker.getBoundingClientRect().top;
+  root.hidden = false;
+  const delta = marker.getBoundingClientRect().top - before;
+  marker.remove();
+  if (delta > 0 && before < window.innerHeight / 2) {
+    window.scrollTo({ top: window.scrollY + delta, behavior: 'instant' });
+  }
 }
 
 async function init(): Promise<void> {

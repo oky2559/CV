@@ -24,7 +24,14 @@ const target = otherLang(lang);
 <script>
   // Sans JS, le lien mène à l'accueil de l'autre langue.
   // Avec JS, on y ajoute l'ancre de la section actuellement à l'écran.
+  // L'ancre de l'URL (lien de nav, arrivée sur /#contact) l'emporte tant que
+  // sa section est encore visible : c'est la destination choisie par le visiteur.
   function currentSection(): string | null {
+    const hashed = location.hash.length > 1 ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+    if (hashed?.matches('main section[id]')) {
+      const r = hashed.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) return hashed.id;
+    }
     const probe = window.innerHeight * 0.35;
     let current: string | null = null;
     for (const el of document.querySelectorAll<HTMLElement>('main section[id]')) {

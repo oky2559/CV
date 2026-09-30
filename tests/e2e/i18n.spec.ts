@@ -31,6 +31,24 @@ test('la bascule de langue garde l\'ancre courante', async ({ page }) => {
   await expect(page).toHaveURL('/en/#contact');
 });
 
+test('l\'apparition tardive du bloc GitHub ne décale pas la section visible', async ({ page }) => {
+  // Réponse retardée : le bloc apparaît bien après le positionnement sur l'ancre.
+  // (Pas d'horloge simulée ici : elle figerait Lenis, qui est en cause.)
+  await page.route('https://api.github.com/**', async (route) => {
+    await new Promise((r) => setTimeout(r, 400));
+    await route.fallback();
+  });
+  await page.goto('/#contact');
+  const gh = page.locator('[data-gh-stats]');
+  const contactTop = () => page.locator('section#contact').evaluate((el) => Math.round(el.getBoundingClientRect().top));
+  await expect(gh).toBeHidden();
+  const before = await contactTop();
+  await expect(gh).toHaveAttribute('data-gh-state', 'ready');
+  expect(Math.abs((await contactTop()) - before)).toBeLessThanOrEqual(2);
+  await page.locator('[data-lang-switch]').click();
+  await expect(page).toHaveURL('/en/#contact');
+});
+
 test('la bascule fonctionne sans JavaScript', async ({ browser }) => {
   const ctx = await browser.newContext({ javaScriptEnabled: false });
   const page = await ctx.newPage();
