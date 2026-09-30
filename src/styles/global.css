@@ -121,3 +121,91 @@
     border: 0;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Animations (src/scripts/motion.ts)
+   L'état caché n'existe que sous html.js-motion, posé par le script lui-même :
+   sans JS, avec réduction des animations ou si le script échoue, tout est visible.
+   -------------------------------------------------------------------------- */
+@layer components {
+  .js-motion [data-reveal]:not(.is-revealed),
+  .js-motion [data-hero-reveal]:not(.is-revealed) {
+    opacity: 0;
+  }
+  .js-motion [data-hero-name] {
+    visibility: hidden;
+  }
+  /* Ancres ciblées au clic : focus programmatique sur une section entière. */
+  [data-anchor-target]:focus {
+    outline: none;
+  }
+
+  /* Lenis (équivalent de lenis/dist/lenis.css) */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  html.lenis {
+    scroll-behavior: auto;
+  }
+  .lenis:not(.lenis-autoToggle).lenis-stopped {
+    overflow: clip;
+  }
+  .lenis [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
+  }
+
+  /* Curseur personnalisé : anneau qui suit la souris, le curseur système reste. */
+  .cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: calc(var(--z-grain) + 2);
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+  .cursor span {
+    position: absolute;
+    left: -1.1rem;
+    top: -1.1rem;
+    width: 2.2rem;
+    height: 2.2rem;
+    border: 1px solid var(--c-accent);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0.4);
+    transition:
+      opacity var(--d-base) ease,
+      transform var(--d-base) var(--ease-out),
+      background-color var(--d-base) ease;
+  }
+  .cursor.is-visible span {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  .cursor.is-link span {
+    transform: scale(1.7);
+    background: rgb(198 255 61 / 0.1);
+  }
+  .cursor.is-field span {
+    opacity: 0;
+  }
+
+  @media print {
+    .js-motion [data-reveal],
+    .js-motion [data-hero-reveal] {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .js-motion [data-hero-name] {
+      visibility: visible !important;
+    }
+    .cursor {
+      display: none;
+    }
+  }
+}

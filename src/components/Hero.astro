@@ -13,7 +13,7 @@ const { lang, cv } = Astro.props;
 const words = cv.identity.name.split(/\s+/);
 ---
 <section class="hero container" aria-labelledby="hero-name">
-  <p class="eyebrow top"><span class="accent">//</span> {t(lang, 'hero.eyebrow')}</p>
+  <p class="eyebrow top" data-hero-reveal><span class="accent">//</span> {t(lang, 'hero.eyebrow')}</p>
 
   <h1 id="hero-name" class="hero-name" data-hero-name>
     {words.map((w, i) => (
@@ -24,11 +24,11 @@ const words = cv.identity.name.split(/\s+/);
     ))}
   </h1>
 
-  <div class="hero-foot">
+  <div class="hero-foot" data-hero-reveal>
     <p class="title mono">{cv.identity.title}</p>
     <p class="tagline">{cv.identity.tagline}</p>
     <div class="actions">
-      <a class="cta" href="#contact">{t(lang, 'hero.cta')} <span aria-hidden="true">→</span></a>
+      <a class="cta" href="#contact" data-magnetic>{t(lang, 'hero.cta')} <span aria-hidden="true">→</span></a>
       <a class="scroll-cue" href="#about">
         <span class="cue-line" aria-hidden="true"></span>
         <span class="mono">{t(lang, 'hero.scroll')}</span>
@@ -101,6 +101,10 @@ const words = cv.identity.name.split(/\s+/);
   }
   .cta:hover {
     transform: translateY(-2px);
+  }
+  /* Effet magnétique actif (souris) : GSAP pilote la transformation. */
+  .cta.is-magnetic {
+    transition: none;
   }
   .scroll-cue {
     display: inline-flex;

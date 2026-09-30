@@ -20,7 +20,7 @@ const initials = cv.identity.name
 <section id="about" class="about container" aria-labelledby="about-title">
   <SectionHead index={1} id="about-title" title={t(lang, 'about.title')} />
   <div class="grid">
-    <figure class="portrait">
+    <figure class="portrait" data-reveal>
       {hasPhoto ? (
         <img src="/photo.jpg" alt={`${t(lang, 'about.photo')} ${cv.identity.name}`} width="480" height="600" loading="lazy" decoding="async" />
       ) : (
@@ -29,7 +29,7 @@ const initials = cv.identity.name
         </div>
       )}
     </figure>
-    <div class="text">
+    <div class="text" data-reveal>
       <p class="bio">{cv.bio}</p>
       <p class="location mono">
         <span class="eyebrow">{t(lang, 'about.location')}</span>

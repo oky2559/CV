@@ -15,7 +15,7 @@ const { lang, cv } = Astro.props;
   <div class="grid">
     <div class="groups">
       {cv.skills.map((g) => (
-        <div class="group">
+        <div class="group" data-reveal>
           <h3 class="eyebrow">{g.category}</h3>
           <ul class="items">
             {g.items.map((s) => <li>{s}</li>)}
@@ -24,7 +24,7 @@ const { lang, cv } = Astro.props;
       ))}
     </div>
 
-    <aside class="langs" aria-labelledby="langs-title">
+    <aside class="langs" aria-labelledby="langs-title" data-reveal>
       <h3 id="langs-title" class="eyebrow">{t(lang, 'skills.languages')}</h3>
       <dl>
         {cv.languages.map((l) => (

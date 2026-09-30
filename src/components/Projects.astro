@@ -15,7 +15,7 @@ const { lang, cv } = Astro.props;
   <SectionHead index={3} id="projects-title" title={t(lang, 'projects.title')} />
   <ul class="cards">
     {cv.projects.map((p, i) => (
-      <li class="card">
+      <li class="card" data-reveal>
         <p class="idx mono" aria-hidden="true">P/{pad2(i + 1)}</p>
         <h3 class="card-title">{p.title}</h3>
         <p class="desc">{p.description}</p>

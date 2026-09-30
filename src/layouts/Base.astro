@@ -22,6 +22,7 @@ const { lang, ...seo } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <Seo lang={lang} {...seo} />
   </head>
   <body id="top">
@@ -30,6 +31,9 @@ const { lang, ...seo } = Astro.props;
     <main id="main" tabindex="-1">
       <slot />
     </main>
+    <script>
+      import '../scripts/motion';
+    </script>
   </body>
 </html>
 

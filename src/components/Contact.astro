@@ -14,20 +14,20 @@ const [user, domain] = email.split('@');
 ---
 <section id="contact" class="contact container" aria-labelledby="contact-title">
   <SectionHead index={5} id="contact-title" title={t(lang, 'contact.title')} />
-  <p class="lead">{t(lang, 'contact.lead')}</p>
+  <p class="lead" data-reveal>{t(lang, 'contact.lead')}</p>
 
-  <div class="mail">
+  <div class="mail" data-reveal>
     <p class="eyebrow">{t(lang, 'contact.email')}</p>
     <a class="address" href={`mailto:${email}`} data-email={email}>{user}<wbr />@{domain}</a>
     {/* Sans JavaScript le bouton reste masqué : l’adresse reste sélectionnable à la main. */}
-    <button type="button" class="copy" data-copy-email={email} data-ok={t(lang, 'contact.copied')} data-ko={t(lang, 'contact.copyError')} hidden>
+    <button type="button" class="copy" data-magnetic data-copy-email={email} data-ok={t(lang, 'contact.copied')} data-ko={t(lang, 'contact.copyError')} hidden>
       <span class="copy-label">{t(lang, 'contact.copy')}</span>
       <span class="copy-done" aria-hidden="true">✓</span>
     </button>
     <p class="status mono" role="status" aria-live="polite" data-copy-status></p>
   </div>
 
-  <div class="elsewhere">
+  <div class="elsewhere" data-reveal>
     <p class="eyebrow">{t(lang, 'contact.elsewhere')}</p>
     <ul>
       <li><a href={github} target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></li>

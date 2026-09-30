@@ -13,8 +13,8 @@ interface Props {
 
 const { index, id, title, kicker } = Astro.props;
 ---
-<header class="section-head">
-  <span class="num" aria-hidden="true">{pad2(index)}</span>
+<header class="section-head" data-reveal>
+  <span class="num" aria-hidden="true" data-parallax="24">{pad2(index)}</span>
   <div class="label">
     {kicker && <p class="eyebrow"><span class="accent">//</span> {kicker}</p>}
     <h2 id={id}>{title}</h2>
