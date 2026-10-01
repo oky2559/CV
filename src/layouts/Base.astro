@@ -4,6 +4,8 @@ import '@fontsource-variable/jetbrains-mono';
 import '../styles/tokens.css';
 import '../styles/global.css';
 import '../styles/print.css';
+import grotesk from '@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2?url';
+import mono from '@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url';
 import Seo from '../components/Seo.astro';
 import Nav from '../components/Nav.astro';
 import Terminal from '../components/Terminal.astro';
@@ -25,6 +27,8 @@ const { lang, ...seo } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" as="font" type="font/woff2" href={grotesk} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={mono} crossorigin />
     <Seo lang={lang} {...seo} />
   </head>
   <body id="top">
