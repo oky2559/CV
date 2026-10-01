@@ -4,14 +4,16 @@
   :root {
     color-scheme: dark;
 
-    /* Couleurs */
+    /* Couleurs — thème sombre (défaut) */
     --c-bg: #0b0b0c;
     --c-bg-raised: #151517;
     --c-fg: #f2efe8;
-    --c-fg-muted: #a7a399; /* ≈ 8:1 sur --c-bg */
-    --c-line: rgb(242 239 232 / 0.14);
+    --c-fg-muted: #b5b1a7; /* ≈ 9:1 sur --c-bg */
+    --c-line: rgb(242 239 232 / 0.16);
     --c-accent: #c6ff3d;
     --c-accent-ink: #0b0b0c; /* texte posé sur l'accent */
+    --grain-opacity: 0.06;
+    --grain-filter: none;
 
     /* Polices */
     --f-display: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
@@ -21,11 +23,11 @@
     --fs-xs: clamp(0.72rem, 0.7rem + 0.1vw, 0.8rem);
     --fs-sm: clamp(0.85rem, 0.82rem + 0.15vw, 0.95rem);
     --fs-base: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
-    --fs-lg: clamp(1.2rem, 1.1rem + 0.45vw, 1.5rem);
-    --fs-xl: clamp(1.5rem, 1.25rem + 1.1vw, 2.25rem);
-    --fs-2xl: clamp(2rem, 1.5rem + 2.4vw, 3.75rem);
-    --fs-3xl: clamp(2.75rem, 1.8rem + 4.6vw, 6.5rem);
-    --fs-giant: clamp(3.25rem, 1.2rem + 10vw, 12rem);
+    --fs-lg: clamp(1.15rem, 1.08rem + 0.35vw, 1.35rem);
+    --fs-xl: clamp(1.35rem, 1.2rem + 0.7vw, 1.85rem);
+    --fs-2xl: clamp(1.75rem, 1.45rem + 1.4vw, 2.75rem);
+    --fs-3xl: clamp(2.25rem, 1.75rem + 2.6vw, 4.25rem);
+    --fs-giant: clamp(3rem, 1.6rem + 5.6vw, 7.5rem);
 
     --lh-tight: 0.92;
     --lh-snug: 1.2;
@@ -41,10 +43,10 @@
     --sp-5: 1.5rem;
     --sp-6: 2rem;
     --sp-7: 3rem;
-    --sp-8: 4.5rem;
-    --sp-9: clamp(4rem, 3rem + 5vw, 8rem);
+    --sp-8: 3.5rem;
+    --sp-9: clamp(3rem, 2.4rem + 3vw, 5.5rem);
     --gutter: clamp(1rem, 0.6rem + 2vw, 3rem);
-    --max-w: 90rem;
+    --max-w: 76rem;
     --nav-h: 3.5rem;
 
     /* Rayons */
@@ -60,6 +62,34 @@
 
     --z-nav: 50;
     --z-grain: 100;
+  }
+
+  /* Thème clair : choisi par le visiteur (data-theme) ou, à défaut, par le système. */
+  :root[data-theme='light'] {
+    color-scheme: light;
+    --c-bg: #f4f1ea;
+    --c-bg-raised: #ebe7dd;
+    --c-fg: #141414;
+    --c-fg-muted: #4f4b44; /* ≈ 7.5:1 sur --c-bg */
+    --c-line: rgb(20 20 20 / 0.16);
+    --c-accent: #3d6b00; /* vert foncé : ≈ 5.6:1 sur --c-bg */
+    --c-accent-ink: #f4f1ea;
+    --grain-opacity: 0.05;
+    --grain-filter: invert(1);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme='dark']) {
+      color-scheme: light;
+      --c-bg: #f4f1ea;
+      --c-bg-raised: #ebe7dd;
+      --c-fg: #141414;
+      --c-fg-muted: #4f4b44;
+      --c-line: rgb(20 20 20 / 0.16);
+      --c-accent: #3d6b00;
+      --c-accent-ink: #f4f1ea;
+      --grain-opacity: 0.05;
+      --grain-filter: invert(1);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

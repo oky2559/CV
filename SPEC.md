@@ -19,7 +19,8 @@ Public principal : recruteurs et équipes tech (stage, alternance, emploi en dé
 - **Compétences** : stack technique groupée par catégorie, langues parlées.
 - **Contact** : email (lien `mailto:` + bouton « copier »), GitHub, LinkedIn.
 - **Bilingue FR / EN** : `/` en français, `/en/` en anglais, bouton de bascule qui garde la section courante.
-- **Animations** : scroll fluide, apparitions au scroll, curseur personnalisé (desktop), grain léger. Tout est désactivé proprement si l'utilisateur a demandé « réduire les animations ».
+- **Animations** : scroll fluide, apparitions au scroll, curseur personnalisé (desktop), grain léger. Tout est désactivé proprement si l'utilisateur a demandé « réduire les animations ». Animations courtes : l'essentiel du haut de page est lisible en moins de 1 s, une section est lisible dès qu'on y arrive.
+- **Thème jour / nuit** : thème sombre et thème clair, bouton soleil/lune dans la navigation. Par défaut, le réglage du système du visiteur ; son choix est retenu. Pas de flash de mauvais thème au chargement.
 - **Bouton « Télécharger en PDF »** : feuille de style d'impression dédiée ; le bouton ouvre l'impression du navigateur, qui produit un PDF propre, sobre, sur 1 à 2 pages A4.
 - **Easter egg terminal** : la touche `` ` `` (ou `Ctrl+K`) ouvre un mini-terminal par-dessus la page. Commandes : `help`, `whoami`, `experience`, `projects`, `skills`, `contact`, `lang fr|en`, `github`, `clear`, `exit`, et `sudo hire-victor` (surprise). Un petit indice discret en bas de page invite à le trouver.
 - **Stats GitHub live** (compte `oky2559`) : nombre de repos publics, top langages, dernière activité. Récupérées dans le navigateur via l'API publique GitHub, mises en cache 1 h. En cas d'échec (réseau, limite d'API), le bloc disparaît sans erreur visible.
@@ -32,7 +33,6 @@ Public principal : recruteurs et équipes tech (stage, alternance, emploi en dé
 - Back-office / édition en ligne du contenu.
 - Formulaire de contact avec envoi serveur (on reste sur `mailto:`).
 - Scène 3D, mini-jeu.
-- Thème clair / bascule clair-sombre.
 - Blog, pages de détail par projet.
 - Génération PDF côté serveur (on utilise l'impression du navigateur).
 - Analytics, cookies.
@@ -109,7 +109,7 @@ CV/
 
 ## Hypothèses prises
 
-1. **Ambiance** (choisie pour toi) : fond quasi noir `#0B0B0C`, texte crème `#F2EFE8`, accent néon vert-citron `#C6FF3D`. Titres en très grande typo display, détails en mono pour le côté « dev ». Un seul thème (sombre) en v1.
+1. **Ambiance** (choisie pour toi) : fond quasi noir `#0B0B0C`, texte crème `#F2EFE8`, accent néon vert-citron `#C6FF3D`. Titres en grande typo display (sans écraser le contenu : le haut de page tient sur un écran avec nom, métier et accroche lisibles), détails en mono pour le côté « dev ». Thème clair : fond crème `#F4F1EA`, texte quasi noir, accent vert foncé lisible sur fond clair.
 2. **Contenu** : extrait de `content-source/linkedin.pdf` (export « Enregistrer au format PDF » de LinkedIn), puis traduit pour avoir FR + EN. **Si le PDF n'est pas encore déposé**, la section 3 met un contenu fictif réaliste marqué `TODO` et le reste du travail n'est pas bloqué.
 3. **Projets** : l'export LinkedIn en contient peu ; on complète avec les repos publics les plus pertinents de `oky2559` (lus via l'API GitHub au moment de remplir le contenu). Victor valide ensuite.
 4. **Photo** : l'export LinkedIn n'en contient pas. Si `public/photo.jpg` existe, on l'affiche ; sinon un monogramme animé « VS ».

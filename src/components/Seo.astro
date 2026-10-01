@@ -33,4 +33,5 @@ const ogLocale = { fr: 'fr_FR', en: 'en_US' } as const;
 {langs.filter((l) => l !== lang).map((l) => <meta property="og:locale:alternate" content={ogLocale[l]} />)}
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content={abs('/og-image.png')} />
-<meta name="theme-color" content="#0B0B0C" />
+<meta name="theme-color" content="#0B0B0C" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#F4F1EA" media="(prefers-color-scheme: light)" />

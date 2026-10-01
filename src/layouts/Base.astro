@@ -26,6 +26,13 @@ const { lang, ...seo } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      // Thème choisi par le visiteur, appliqué avant le premier affichage (pas de flash).
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preload" as="font" type="font/woff2" href={grotesk} crossorigin />
     <link rel="preload" as="font" type="font/woff2" href={mono} crossorigin />

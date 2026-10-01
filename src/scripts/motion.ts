@@ -60,7 +60,8 @@ function revealAll(): void {
 // Scroll fluide + liens d'ancre
 
 function initLenis(): Lenis {
-  const instance = new Lenis({ autoRaf: false, anchors: false });
+  // lerp plus élevé que le défaut (0,1) : le défilement suit la molette sans traîner.
+  const instance = new Lenis({ autoRaf: false, anchors: false, lerp: 0.2 });
   instance.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => instance.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
@@ -111,8 +112,8 @@ function initHero(): void {
     return;
   }
 
-  // On attend les polices (au plus 1,5 s) pour découper avec les bonnes métriques.
-  const fontsReady = Promise.race([document.fonts?.ready, new Promise((r) => setTimeout(r, 1500))]);
+  // On attend les polices (préchargées ; au plus 300 ms) pour découper avec les bonnes métriques.
+  const fontsReady = Promise.race([document.fonts?.ready, new Promise((r) => setTimeout(r, 300))]);
   fontsReady
     .then(() => {
       if (failed) return;
@@ -123,8 +124,8 @@ function initHero(): void {
         .timeline({ defaults: { ease: 'expo.out' } })
         .from(split.chars, {
           yPercent: 115,
-          duration: 1.2,
-          stagger: 0.045,
+          duration: 0.6,
+          stagger: 0.02,
           onComplete: () => split.revert(),
         })
         .to(
@@ -132,11 +133,11 @@ function initHero(): void {
           {
             // Fondu seul : le CTA ne bouge pas sous le pointeur pendant l'intro.
             opacity: 1,
-            duration: 1,
-            stagger: 0.12,
+            duration: 0.35,
+            stagger: 0.05,
             onComplete: () => extras.forEach(showNow),
           },
-          '-=0.8',
+          0.1,
         );
     })
     .catch(fail);
@@ -145,11 +146,11 @@ function initHero(): void {
 function initReveals(): void {
   const items = gsap.utils.toArray<HTMLElement>(REVEAL);
   if (!items.length) return;
-  gsap.set(items, { y: 40, transition: 'none' });
+  gsap.set(items, { y: 16, transition: 'none' });
 
   ScrollTrigger.batch(items, {
     // clamp() : les derniers éléments de la page se déclenchent aussi en butée de scroll.
-    start: 'clamp(top 90%)',
+    start: 'clamp(top bottom)',
     end: 'max',
     once: true,
     onEnter: (batch) => {
@@ -163,11 +164,11 @@ function initReveals(): void {
       gsap.to(inView, {
         opacity: 1,
         y: 0,
-        duration: 0.9,
-        ease: 'power3.out',
+        duration: 0.4,
+        ease: 'power2.out',
         overwrite: true,
         stagger: {
-          each: 0.08,
+          each: 0.04,
           onComplete(this: gsap.core.Tween) {
             this.targets<Element>().forEach(showNow);
           },

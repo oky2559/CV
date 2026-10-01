@@ -113,10 +113,7 @@ const data = JSON.stringify(cv).replace(/</g, '\\u003c');
     font-size: var(--fs-xs);
     letter-spacing: 0.02em;
     cursor: pointer;
-    opacity: 0.75;
-    transition:
-      color var(--d-fast) ease,
-      opacity var(--d-fast) ease;
+    transition: color var(--d-fast) ease;
   }
   .hint[hidden] {
     display: none;
@@ -124,7 +121,6 @@ const data = JSON.stringify(cv).replace(/</g, '\\u003c');
   .hint:hover,
   .hint:focus-visible {
     color: var(--c-accent);
-    opacity: 1;
   }
   .hint kbd {
     display: inline-block;

@@ -7,13 +7,16 @@ import { expect, test } from './fixtures';
 const pages = ['/', '/en/'];
 
 for (const path of pages) {
-  test(`accessibilité (axe) sur ${path}`, async ({ page }) => {
-    await page.goto(path);
-    await page.waitForLoadState('networkidle');
-    const { violations } = await new AxeBuilder({ page }).analyze();
-    const bad = violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
-    expect(bad.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(' | ')}`)).toEqual([]);
-  });
+  for (const scheme of ['dark', 'light'] as const) {
+    test(`accessibilité (axe) sur ${path}, thème ${scheme}`, async ({ page }) => {
+      await page.emulateMedia({ colorScheme: scheme });
+      await page.goto(path);
+      await page.waitForLoadState('networkidle');
+      const { violations } = await new AxeBuilder({ page }).analyze();
+      const bad = violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
+      expect(bad.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(' | ')}`)).toEqual([]);
+    });
+  }
 }
 
 test('CLS < 0,1 au chargement de /', async ({ page }) => {

@@ -1,6 +1,7 @@
 ---
 import { homePath, sections, t, type Lang } from '../i18n/ui';
 import LangSwitch from './LangSwitch.astro';
+import ThemeToggle from './ThemeToggle.astro';
 
 interface Props {
   lang: Lang;
@@ -24,7 +25,10 @@ const home = homePath(lang);
         </li>
       ))}
     </ol>
-    <LangSwitch lang={lang} />
+    <div class="tools">
+      <ThemeToggle lang={lang} />
+      <LangSwitch lang={lang} />
+    </div>
   </nav>
 </header>
 
@@ -34,7 +38,7 @@ const home = homePath(lang);
     inset: 0 0 auto;
     z-index: var(--z-nav);
     height: var(--nav-h);
-    background: linear-gradient(to bottom, rgb(11 11 12 / 0.92), rgb(11 11 12 / 0.6));
+    background: linear-gradient(to bottom, color-mix(in srgb, var(--c-bg) 92%, transparent), color-mix(in srgb, var(--c-bg) 70%, transparent));
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--c-line);
@@ -51,6 +55,11 @@ const home = homePath(lang);
     font-size: var(--fs-lg);
     letter-spacing: var(--tracking-tight);
     text-decoration: none;
+  }
+  .tools {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
   }
   .links {
     display: none;

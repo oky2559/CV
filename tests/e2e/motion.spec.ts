@@ -63,6 +63,37 @@ test.describe('animations actives', () => {
     expect(Number(draw)).toBeGreaterThan(0.9);
   });
 
+  test('rapide : le haut de page est lisible en moins de 1 s, une section dès qu\'on y arrive', async ({ page }) => {
+    // Sans attendre l'API GitHub : seul le rythme des animations est mesuré.
+    await page.route('**/api.github.com/**', (r) => r.abort());
+    const start = Date.now();
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(
+      () => [...document.querySelectorAll('[data-hero-reveal]')].every((e) => getComputedStyle(e).opacity === '1'),
+      null,
+      { polling: 25, timeout: 5000 },
+    );
+    expect(Date.now() - start).toBeLessThan(1000);
+
+    for (const id of ['experience', 'projects']) {
+      await page.evaluate((id) => window.scrollTo(0, document.getElementById(id)!.offsetTop - 60), id);
+      const t = Date.now();
+      // Tout bloc présent à l'écran (même tout en bas) finit opaque, vite.
+      await page.waitForFunction(
+        (id) =>
+          [...document.getElementById(id)!.querySelectorAll('[data-reveal]')]
+            .filter((e) => {
+              const r = e.getBoundingClientRect();
+              return r.top < innerHeight && r.bottom > 0;
+            })
+            .every((e) => getComputedStyle(e).opacity === '1'),
+        id,
+        { polling: 25, timeout: 3000 },
+      );
+      expect(Date.now() - t, id).toBeLessThan(800);
+    }
+  });
+
   test('un lien d\'ancre fait défiler jusqu\'à la section et y met le focus', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('html')).toHaveAttribute('data-motion', 'ready');
