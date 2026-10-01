@@ -1,4 +1,4 @@
-import { expect, test, type Page } from './fixtures';
+import { expect, fulfillGithub, test, type Page } from './fixtures';
 import cv from '../../src/data/cv.json' with { type: 'json' };
 
 const paths = ['/', '/en/'] as const;
@@ -109,6 +109,22 @@ test.describe('animations actives', () => {
     await expect
       .poll(() => contact.locator('[data-reveal]').first().evaluate((el) => getComputedStyle(el).opacity), { timeout: 5000 })
       .toBe('1');
+  });
+
+  test('le défilement vers Contact va au bout même si les stats GitHub arrivent en route', async ({ page }) => {
+    // Les stats arrivent pendant le défilement et allongent la page.
+    await page.route('https://api.github.com/**', async (route) => {
+      await new Promise((r) => setTimeout(r, 150));
+      return fulfillGithub(route);
+    });
+    await page.goto('/');
+    await expect(page.locator('html')).toHaveAttribute('data-motion', 'ready');
+    await page.locator('.hero .cta').click();
+    await expect(page.locator('[data-gh-stats]')).toBeVisible();
+    const contact = page.locator('section#contact');
+    await expect
+      .poll(() => contact.evaluate((el) => el.getBoundingClientRect().top < window.innerHeight / 2), { timeout: 5000 })
+      .toBe(true);
   });
 
   test('le lien d\'évitement garde le focus clavier', async ({ page }) => {

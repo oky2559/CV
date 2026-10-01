@@ -54,8 +54,12 @@ test('le haut de page tient sur un écran : nom, métier, accroche et bouton vis
       expect(box, sel).not.toBeNull();
       expect(box!.y + box!.height, `${sel} à ${viewport.width}×${viewport.height}`).toBeLessThanOrEqual(viewport.height);
     }
-    // Le nom ne doit pas écraser la page : au plus ~1/5 de la hauteur d'écran par ligne.
-    const fontSize = await page.locator('[data-hero-name]').evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
-    expect(fontSize).toBeLessThanOrEqual(viewport.height / 5);
+    // Pas « trop zoomé » : nom au plus ~1/9 de la hauteur d'écran, texte courant entre 16 et 17 px.
+    const size = (sel: string) => page.locator(sel).first().evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
+    expect(await size('[data-hero-name]')).toBeLessThanOrEqual(viewport.height / 9);
+    expect(await size('section h2')).toBeLessThanOrEqual(viewport.height / 18);
+    const body = await size('body');
+    expect(body).toBeGreaterThanOrEqual(16);
+    expect(body).toBeLessThanOrEqual(17);
   }
 });

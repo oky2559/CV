@@ -127,6 +127,8 @@ function revealInPlace(root: HTMLElement): void {
   if (delta > 0 && before < window.innerHeight / 2) {
     window.scrollTo({ top: window.scrollY + delta, behavior: 'instant' });
   }
+  // La page a grandi : le scroll fluide doit recalculer sa longueur (voir motion.ts).
+  if (delta > 0) document.dispatchEvent(new CustomEvent('cv:layout-change'));
 }
 
 async function init(): Promise<void> {

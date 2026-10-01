@@ -68,6 +68,9 @@ function initLenis(): Lenis {
   return instance;
 }
 
+/** Cible du défilement d'ancre en cours (null : aucun). */
+let anchorTarget: HTMLElement | 0 | null = null;
+
 /** Déplace le focus sur la cible d'une ancre, sans provoquer de saut. */
 function focusTarget(target: HTMLElement): void {
   if (target === document.body) return;
@@ -96,8 +99,21 @@ function bindAnchors(): void {
 
     e.preventDefault();
     if (url.hash !== location.hash) history.pushState(null, '', url.hash);
-    lenis.scrollTo(target === document.body ? 0 : target);
+    anchorTarget = target === document.body ? 0 : target;
+    lenis.scrollTo(anchorTarget, { onComplete: () => (anchorTarget = null) });
     focusTarget(target);
+  });
+
+  // Du contenu apparu en cours de route (stats GitHub) allonge la page : Lenis
+  // recalcule sa longueur et, si un défilement vers une ancre est en cours, il
+  // vise à nouveau la cible au lieu de s'arrêter à l'ancienne fin de page.
+  document.addEventListener('cv:layout-change', () => {
+    if (!lenis) return;
+    lenis.resize();
+    if (anchorTarget !== null) {
+      const target = anchorTarget;
+      lenis.scrollTo(target, { onComplete: () => (anchorTarget = null) });
+    }
   });
 }
 

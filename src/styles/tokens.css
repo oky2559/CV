@@ -20,14 +20,14 @@
     --f-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
     /* Échelle typographique fluide (360 px → 1920 px) */
-    --fs-xs: clamp(0.72rem, 0.7rem + 0.1vw, 0.8rem);
-    --fs-sm: clamp(0.85rem, 0.82rem + 0.15vw, 0.95rem);
-    --fs-base: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
-    --fs-lg: clamp(1.15rem, 1.08rem + 0.35vw, 1.35rem);
-    --fs-xl: clamp(1.35rem, 1.2rem + 0.7vw, 1.85rem);
-    --fs-2xl: clamp(1.75rem, 1.45rem + 1.4vw, 2.75rem);
-    --fs-3xl: clamp(2.25rem, 1.75rem + 2.6vw, 4.25rem);
-    --fs-giant: clamp(3rem, 1.6rem + 5.6vw, 7.5rem);
+    --fs-xs: clamp(0.72rem, 0.7rem + 0.05vw, 0.76rem);
+    --fs-sm: clamp(0.82rem, 0.8rem + 0.08vw, 0.875rem);
+    --fs-base: 1rem;
+    --fs-lg: clamp(1.05rem, 1rem + 0.2vw, 1.2rem);
+    --fs-xl: clamp(1.2rem, 1.1rem + 0.4vw, 1.5rem);
+    --fs-2xl: clamp(1.5rem, 1.3rem + 0.8vw, 2.1rem);
+    --fs-3xl: clamp(2rem, 1.6rem + 1.6vw, 3.25rem);
+    --fs-giant: clamp(2.75rem, 1.4rem + 4.2vw, 5.75rem);
 
     --lh-tight: 0.92;
     --lh-snug: 1.2;
@@ -42,11 +42,11 @@
     --sp-4: 1rem;
     --sp-5: 1.5rem;
     --sp-6: 2rem;
-    --sp-7: 3rem;
-    --sp-8: 3.5rem;
-    --sp-9: clamp(3rem, 2.4rem + 3vw, 5.5rem);
+    --sp-7: 2.5rem;
+    --sp-8: 3rem;
+    --sp-9: clamp(2.5rem, 2rem + 2.2vw, 4.5rem);
     --gutter: clamp(1rem, 0.6rem + 2vw, 3rem);
-    --max-w: 76rem;
+    --max-w: 72rem;
     --nav-h: 3.5rem;
 
     /* Rayons */
